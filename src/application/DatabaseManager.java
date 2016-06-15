@@ -72,33 +72,44 @@ public class DatabaseManager {
     }
     
     public ArrayList<CustomerShoppingModel> getCsmArray(String name, String clientId){
+    	String filter = " ";
+    	
+    	if (name != null){
+    		filter = "WHERE P.NOME = '" + name+"' "; 
+    	}
+    	if (clientId != null){
+    		filter = filter.concat("' OR P.PESSOA_ID = '"+clientId+"' ");
+    	}
+    	
     	
     	String query = 
-        		"SELECT SUM(V.subtotal) AS Soma, COUNT(*) AS Numero, " +
-        		"TO_CHAR(V.data_venda, 'YYYY') AS Ano, C.cliente_id AS ClienteId, P.nome AS Nome "+
-        		"FROM Venda V " +
-        		      "JOIN Cliente C "+
-        				"ON C.cliente_id = V.cliente_id "+
-        		      "JOIN Pessoa P "+
-        				"ON P.pessoa_id = C.pessoa_id "+
-        				"WHERE ROWNUM <= " + maxRowsNumber +
-        				" GROUP BY ROLLUP (C.cliente_id, TO_CHAR(V.data_venda, 'YYYY')) "+
-        		   "ORDER BY C.cliente_id";
+    			"SELECT  P.NOME AS Nome,  " +
+    			"TO_CHAR(V.data_venda, 'YYYY') AS Ano, COUNT(*) AS Compras, " +
+    			"SUM(V.subtotal) AS TotalComprado " +
+    			   "FROM Venda V " +
+    			      "JOIN Cliente C " + 
+    					"ON C.cliente_id = V.cliente_id "+ 
+    			      "JOIN Pessoa P " +
+    					"ON P.pessoa_id = C.pessoa_id " +
+    			    filter +
+    			    "AND ROWNUM <= " + maxRowsNumber +
+    					"GROUP BY ROLLUP (P.NOME, TO_CHAR(V.data_venda, 'YYYY')) " +
+    			   "ORDER BY P.NOME";
     	
     	try {
             ArrayList<CustomerShoppingModel> list = new ArrayList<CustomerShoppingModel>();
             ResultSet rs = select(query);
             while(rs.next()){
+            	System.out.println("ok");
             	CustomerShoppingModel csm = 
             			new CustomerShoppingModel(
             					rs.getString("Nome"),
-            					rs.getString("ClienteId"),
-            					rs.getDouble("Soma"),
-            					rs.getInt("Numero"),
+            					rs.getString("Nome"), //TROCAR PARA CODIGO
+            					rs.getDouble("TotalComprado"),
+            					rs.getInt("Compras"),
             					rs.getInt("Ano"));
             		
-            	list.add(csm);
-            	System.out.println("ok");
+            	list.add(csm);	
             }
             return list;
         } catch (SQLException ex) {

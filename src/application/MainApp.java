@@ -50,12 +50,15 @@ public class MainApp extends Application {
 			e.printStackTrace();
 		}
 		
-		//showCsmView();
-		showMainView();
 		database = new DatabaseManager();
 		database.openConnection();
-		initMainList();
-		//initCsmList();
+		
+		//Show each screen individually
+		//showMainView();
+		//initMainList();
+		
+		showCsmView();
+		initCsmList();
 	}
 	
 	//Init lists
@@ -70,7 +73,7 @@ public class MainApp extends Application {
 	
 	public void initCsmList(){
 		ArrayList<CustomerShoppingModel> array = new ArrayList<CustomerShoppingModel>();
-		array = database.getCsmArray("", "");
+		array = database.getCsmArray(null, null);
 		
 		for (CustomerShoppingModel csm : array){
 			csmData.add(csm);
