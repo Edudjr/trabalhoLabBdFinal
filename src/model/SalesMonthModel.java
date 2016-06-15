@@ -1,23 +1,23 @@
 package model;
 
 public class SalesMonthModel {
-	private String data;
+	private String date;
 	private Double total;
     
     public SalesMonthModel(
-    		String data, 
+    		String date, 
     		Double total)
     {
-    	this.setData(data);
+    	this.setData(date);
     	this.setTotal(total);
     }
 
 	public String getData() {
-		return data;
+		return date;
 	}
 
 	public void setData(String data) {
-		this.data = data;
+		this.date = data;
 	}
 
 	public Double getTotal() {

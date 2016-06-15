@@ -9,6 +9,7 @@ import java.util.logging.Logger;
 import model.CustomerCountryStateModel;
 import model.CustomerShoppingModel;
 import model.Person;
+import model.SalesMonthModel;
 
 public class DatabaseManager {
 	private final String username = "e7986538";
@@ -106,7 +107,7 @@ public class DatabaseManager {
         }
     }
     
-public ArrayList<CustomerCountryStateModel> getCcsArray(String name, String clientId){
+public ArrayList<CustomerCountryStateModel> getCcsArray(){
     	
     	String query = 
     	"SELECT EST.PAIS AS pais, EST.NOME AS estado , COUNT(C.CLIENTE_ID) AS total "+
@@ -118,7 +119,7 @@ public ArrayList<CustomerCountryStateModel> getCcsArray(String name, String clie
     	    "JOIN ESTADO EST "+
     	      "ON ENDE.ESTADO_ID = EST.ESTADO_ID "+
     	      "WHERE ROWNUM <= " + maxRowsNumber +
-    	  "GROUP BY ROLLUP (EST.PAIS, EST.NOME) "+
+    	  " GROUP BY ROLLUP (EST.PAIS, EST.NOME) "+
     	  "ORDER BY PAIS";
     	
     	try {
@@ -141,6 +142,41 @@ public ArrayList<CustomerCountryStateModel> getCcsArray(String name, String clie
             return null;
         }
     }
+
+public ArrayList<SalesMonthModel> getSmArray(String mes){
+	
+	String query = 
+	"SELECT NOME.data AS data, NOME.TOTAL_VENDIDO_POR_DIA AS total, "+
+    "SUM (NOME.TOTAL_VENDIDO_POR_DIA) OVER (ORDER BY NOME.dataa ROWS BETWEEN 2 PRECEDING AND CURRENT ROW) AS TOT, "+
+    "SUM (NOME.TOTAL_VENDIDO_POR_DIA) OVER (ORDER BY NOME.dataa ROWS BETWEEN CURRENT ROW AND 2 FOLLOWING) AS TOT2 "+
+    "FROM (" +
+       "SELECT " + 
+          "TO_CHAR(data_venda, 'DD/MM/YY') as dataa, "+
+          "SUM(SUBTOTAL) AS TOTAL_VENDIDO_POR_DIA "+
+       "FROM VENDA "+
+          "WHERE DATA_VENDA LIKE '%/12/13' "+ //usar mes aqui
+          "AND ROWNUM <= " + maxRowsNumber +
+       "GROUP BY (TO_CHAR(data_venda, 'MM/YY'), TO_CHAR(data_venda, 'DD/MM/YY'))) NOME";
+	
+	try {
+        ArrayList<SalesMonthModel> list = new ArrayList<SalesMonthModel>();
+        ResultSet rs = select(query);
+        while(rs.next()){
+        	SalesMonthModel csm = 
+        			new SalesMonthModel(
+        					rs.getString("date"),
+        					rs.getDouble("total"));
+        	
+        		
+        	list.add(csm);
+        	System.out.println("ok");
+        }
+        return list;
+    } catch (SQLException ex) {
+        System.out.println(ex);
+        return null;
+    }
+}
     
     
     public boolean closeConnection(){

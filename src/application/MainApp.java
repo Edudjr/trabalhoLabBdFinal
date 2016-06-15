@@ -5,8 +5,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Vector;
 
+import controller.CustomerCountryStateViewController;
 import controller.CustomerShoppingViewController;
 import controller.PersonViewController;
+import controller.SalesMonthViewController;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -16,6 +18,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import model.Person;
+import model.SalesMonthModel;
 import model.CustomerCountryStateModel;
 import model.CustomerShoppingModel;
 
@@ -28,6 +31,8 @@ public class MainApp extends Application {
     private ObservableList<Person> personData = FXCollections.observableArrayList();
     private ObservableList<CustomerShoppingModel> csmData = FXCollections.observableArrayList();
     private ObservableList<CustomerCountryStateModel> ccsData = FXCollections.observableArrayList();
+    private ObservableList<SalesMonthModel> smData = FXCollections.observableArrayList();
+    
 	
 	@Override
 	public void start(Stage primaryStage) {
@@ -72,6 +77,24 @@ public class MainApp extends Application {
 		}
 	}
 	
+	public void initCcsList(){
+		ArrayList<CustomerCountryStateModel> array = new ArrayList<CustomerCountryStateModel>();
+		array = database.getCcsArray();
+		
+		for (CustomerCountryStateModel item : array){
+			ccsData.add(item);
+		}
+	}
+	
+	public void initSmList(){
+		ArrayList<SalesMonthModel> array = new ArrayList<SalesMonthModel>();
+		array = database.getSmArray(""); //passar mes
+		
+		for (SalesMonthModel item : array){
+			smData.add(item);
+		}
+	}
+	
 	//Show Views
 	public void showMainView(){
 		try{
@@ -104,6 +127,38 @@ public class MainApp extends Application {
 		}
 	}
 	
+	public void showCcsView(){
+		try{
+			FXMLLoader loader = new FXMLLoader
+					(MainApp.class.getResource("/view/CustomerCountryStateResumeView.fxml"));
+			AnchorPane mainView = (AnchorPane) loader.load();
+			rootLayout.setCenter(mainView);
+			
+			//Give the controller access to the main app
+			CustomerCountryStateViewController controller = loader.getController();
+			controller.setMainApp(this);
+			
+		}catch(IOException e){
+			e.printStackTrace();
+		}
+	}
+	
+	public void showSmView(){
+		try{
+			FXMLLoader loader = new FXMLLoader
+					(MainApp.class.getResource("/view/SalesMonthResumeView.fxml"));
+			AnchorPane mainView = (AnchorPane) loader.load();
+			rootLayout.setCenter(mainView);
+			
+			//Give the controller access to the main app
+			SalesMonthViewController controller = loader.getController();
+			controller.setMainApp(this);
+			
+		}catch(IOException e){
+			e.printStackTrace();
+		}
+	}
+	
 	public static void main(String[] args) {
 		launch(args);
 	}
@@ -121,5 +176,8 @@ public class MainApp extends Application {
     }
     public ObservableList<CustomerCountryStateModel> getCcsData(){
     	return ccsData;
+    }
+    public ObservableList<SalesMonthModel> getSmData(){
+    	return smData;
     }
 }
