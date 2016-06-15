@@ -5,13 +5,13 @@
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.layout.BorderPane?>
 
-<BorderPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.RootViewController">
    <top>
       <MenuBar BorderPane.alignment="CENTER">
         <menus>
             <Menu mnemonicParsing="false" text="Arquivo">
               <items>
-                <MenuItem mnemonicParsing="false" text="Fechar" />
+                <MenuItem mnemonicParsing="false" onAction="#handleExit" text="Fechar" />
               </items>
             </Menu>
           <Menu mnemonicParsing="false" text="Dashboard">
@@ -22,9 +22,9 @@
           <Menu mnemonicParsing="false" text="Relatórios">
             <items>
                   <MenuItem mnemonicParsing="false" text="Transporte" />
-                  <MenuItem mnemonicParsing="false" text="Compras de clientes" />
-              <MenuItem mnemonicParsing="false" text="Clientes por país e estado" />
-                  <MenuItem mnemonicParsing="false" text="Vendas diárias no mês" />
+                  <MenuItem mnemonicParsing="false" onAction="#handleCsmClick" text="Compras de clientes" />
+              <MenuItem mnemonicParsing="false" onAction="#handleCcsClick" text="Clientes por país e estado" />
+                  <MenuItem mnemonicParsing="false" onAction="#handleSmClick" text="Vendas diárias no mês" />
                   <MenuItem mnemonicParsing="false" text="Vendas de produto por categoria" />
                   <MenuItem mnemonicParsing="false" text="Vendas no ano" />
                   <MenuItem mnemonicParsing="false" text="Produtos vendidos na mesma venda" />

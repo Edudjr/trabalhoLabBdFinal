@@ -55,16 +55,13 @@ public class MainApp extends Application {
 		
 		//Show each screen individually
 		//showMainView();
-		//initMainList();
 		
-		//showCsmView();
-		//initCsmList(null, null);
+		showCsmView();
 		
 		//showCcsView();
-		//initCcsList();
 		
-		showSmView();
-		initSmList(null);
+		//showSmView();
+		
 	}
 	
 	//Init lists
@@ -117,7 +114,7 @@ public class MainApp extends Application {
 			//Give the controller access to the main app
 			PersonViewController controller = loader.getController();
 			controller.setMainApp(this);
-			
+			initMainList();
 		}catch(IOException e){
 			e.printStackTrace();
 		}
@@ -134,6 +131,7 @@ public class MainApp extends Application {
 			CustomerShoppingViewController controller = loader.getController();
 			controller.setMainApp(this);
 			
+			initCsmList(null, null);
 		}catch(IOException e){
 			e.printStackTrace();
 		}
@@ -150,6 +148,7 @@ public class MainApp extends Application {
 			CustomerCountryStateViewController controller = loader.getController();
 			controller.setMainApp(this);
 			
+			initCcsList();
 		}catch(IOException e){
 			e.printStackTrace();
 		}
@@ -166,6 +165,7 @@ public class MainApp extends Application {
 			SalesMonthViewController controller = loader.getController();
 			controller.setMainApp(this);
 			
+			initSmList(null);
 		}catch(IOException e){
 			e.printStackTrace();
 		}
