@@ -57,8 +57,14 @@ public class MainApp extends Application {
 		//showMainView();
 		//initMainList();
 		
-		showCsmView();
-		initCsmList(null, null);
+		//showCsmView();
+		//initCsmList(null, null);
+		
+		//showCcsView();
+		//initCcsList();
+		
+		showSmView();
+		initSmList(null);
 	}
 	
 	//Init lists
@@ -85,15 +91,17 @@ public class MainApp extends Application {
 		ArrayList<CustomerCountryStateModel> array = new ArrayList<CustomerCountryStateModel>();
 		array = database.getCcsArray();
 		
+		ccsData.clear();
 		for (CustomerCountryStateModel item : array){
 			ccsData.add(item);
 		}
 	}
 	
-	public void initSmList(){
+	public void initSmList(String month){
 		ArrayList<SalesMonthModel> array = new ArrayList<SalesMonthModel>();
-		array = database.getSmArray(""); //passar mes
+		array = database.getSmArray(month); //passar mes
 		
+		smData.clear();
 		for (SalesMonthModel item : array){
 			smData.add(item);
 		}
@@ -189,4 +197,8 @@ public class MainApp extends Application {
     public void setCsmData(String name, String id){
     	this.initCsmList(name, id);
     }
+
+	public void setSmData(String month) {
+		this.initSmList(month);
+	}
 }

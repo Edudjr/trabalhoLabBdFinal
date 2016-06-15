@@ -2,29 +2,41 @@ package model;
 
 public class SalesMonthModel {
 	private String date;
-	private Double total;
+	private Double media;
+	private Integer total;
     
     public SalesMonthModel(
-    		String date, 
-    		Double total)
+    		String date,
+    		Integer total,
+    		Double media)
     {
-    	this.setData(date);
+    	this.setDate(date);
     	this.setTotal(total);
+    	this.setMedia(media);
     }
 
-	public String getData() {
-		return date;
-	}
-
-	public void setData(String data) {
-		this.date = data;
-	}
-
-	public Double getTotal() {
+	public Integer getTotal() {
 		return total;
 	}
 
-	public void setTotal(Double total) {
+	public void setTotal(Integer total) {
 		this.total = total;
 	}
+
+	public Double getMedia() {
+		return media;
+	}
+
+	public void setMedia(Double media) {
+		this.media = media;
+	}
+
+	public String getDate() {
+		return date;
+	}
+
+	public void setDate(String date) {
+		this.date = date;
+	}
+
 }

@@ -4,6 +4,7 @@ import application.MainApp;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import model.SalesMonthModel;
 
@@ -20,7 +21,11 @@ public class SalesMonthViewController {
     @FXML
     private TableColumn<SalesMonthModel, String> dateColumn;
     @FXML
-    private TableColumn<SalesMonthModel, Double> totalColumn;
+    private TableColumn<SalesMonthModel, Integer> totalColumn;
+    @FXML
+    private TableColumn<SalesMonthModel, Double> mediaColumn;
+    @FXML
+    private TextField monthTextfield;
 
  // Reference to the main application
     private MainApp mainApp;
@@ -31,7 +36,9 @@ public class SalesMonthViewController {
         dateColumn.setCellValueFactory
         (new PropertyValueFactory<SalesMonthModel, String>("date"));
         totalColumn.setCellValueFactory
-        (new PropertyValueFactory<SalesMonthModel, Double>("total"));
+        (new PropertyValueFactory<SalesMonthModel, Integer>("total"));
+        mediaColumn.setCellValueFactory
+        (new PropertyValueFactory<SalesMonthModel, Double>("media"));
        
         
      // Auto resize columns
@@ -46,5 +53,13 @@ public class SalesMonthViewController {
         //tableView.setItems(mainApp.getPersonData());
         tableView.setItems(mainApp.getSmData());
         
+    }
+	
+	@FXML
+    private void handleFilterButton() {
+      String month = monthTextfield.getText();
+
+      mainApp.setSmData(month);
+      tableView.setItems(mainApp.getSmData());
     }
 }

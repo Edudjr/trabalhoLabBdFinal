@@ -12,8 +12,8 @@ import model.Person;
 import model.SalesMonthModel;
 
 public class DatabaseManager {
-	private final String username = "e7986538";
-    private final String password = "e7986538";
+	private final String username = "r7962006";
+    private final String password = "r7962006";
     public Connection connection = null;
     public Integer maxRowsNumber = 50;
     
@@ -121,17 +121,16 @@ public class DatabaseManager {
 public ArrayList<CustomerCountryStateModel> getCcsArray(){
     	
     	String query = 
-    	"SELECT EST.PAIS AS pais, EST.NOME AS estado , COUNT(C.CLIENTE_ID) AS total "+
-    	  "FROM CLIENTE C "+
-    	    "JOIN PESSOA P "+
-    	      "ON C.PESSOA_ID = P.PESSOA_ID "+
-    	    "JOIN ENDERECO ENDE "+
-    	      "ON P.PESSOA_ID = ENDE.PESSOA_ID "+
-    	    "JOIN ESTADO EST "+
-    	      "ON ENDE.ESTADO_ID = EST.ESTADO_ID "+
-    	      "WHERE ROWNUM <= " + maxRowsNumber +
-    	  " GROUP BY ROLLUP (EST.PAIS, EST.NOME) "+
-    	  "ORDER BY PAIS";
+		"SELECT EST.PAIS AS Pais, EST.NOME AS Estado ,COUNT(C.CLIENTE_ID) as Clientes "+
+		  "FROM CLIENTE C "+
+		    "JOIN PESSOA P "+
+		      "ON C.PESSOA_ID = P.PESSOA_ID "+
+		    "JOIN ENDERECO ENDE "+
+		      "ON P.PESSOA_ID = ENDE.PESSOA_ID "+
+		    "JOIN ESTADO EST "+
+		      "ON ENDE.ESTADO_ID = EST.ESTADO_ID "+
+		  "GROUP BY ROLLUP (EST.PAIS, EST.NOME) "+
+		  "ORDER BY EST.PAIS, EST.NOME";
     	
     	try {
             ArrayList<CustomerCountryStateModel> list = new ArrayList<CustomerCountryStateModel>();
@@ -139,9 +138,9 @@ public ArrayList<CustomerCountryStateModel> getCcsArray(){
             while(rs.next()){
             	CustomerCountryStateModel csm = 
             			new CustomerCountryStateModel(
-            					rs.getString("pais"),
-            					rs.getString("estado"),
-            					rs.getInt("total"));
+            					rs.getString("Pais"),
+            					rs.getString("Estado"),
+            					rs.getInt("Clientes"));
             	
             		
             	list.add(csm);
@@ -155,32 +154,39 @@ public ArrayList<CustomerCountryStateModel> getCcsArray(){
     }
 
 public ArrayList<SalesMonthModel> getSmArray(String mes){
+	String filter = "";
+	if(mes != null && !mes.isEmpty()){
+		filter = "WHERE DATA_VENDA LIKE '%/"+mes+"/12' AND ";
+	}else{
+		filter = "WHERE ";
+	}
 	
 	String query = 
-	"SELECT NOME.data AS data, NOME.TOTAL_VENDIDO_POR_DIA AS total, "+
-    "SUM (NOME.TOTAL_VENDIDO_POR_DIA) OVER (ORDER BY NOME.dataa ROWS BETWEEN 2 PRECEDING AND CURRENT ROW) AS TOT, "+
-    "SUM (NOME.TOTAL_VENDIDO_POR_DIA) OVER (ORDER BY NOME.dataa ROWS BETWEEN CURRENT ROW AND 2 FOLLOWING) AS TOT2 "+
-    "FROM (" +
-       "SELECT " + 
-          "TO_CHAR(data_venda, 'DD/MM/YY') as dataa, "+
-          "SUM(SUBTOTAL) AS TOTAL_VENDIDO_POR_DIA "+
-       "FROM VENDA "+
-          "WHERE DATA_VENDA LIKE '%/12/13' "+ //usar mes aqui
-          "AND ROWNUM <= " + maxRowsNumber +
-       "GROUP BY (TO_CHAR(data_venda, 'MM/YY'), TO_CHAR(data_venda, 'DD/MM/YY'))) NOME";
+	"SELECT SOMA_SUBTOTAL.DIA AS Dia, SOMA_SUBTOTAL.VENDAS_DIA AS VendasDia, "+
+      "TRUNC(avg (SOMA_SUBTOTAL.VENDAS_DIA) OVER " +
+      "(ORDER BY SOMA_SUBTOTAL.DIA ROWS BETWEEN 2 PRECEDING AND 2 FOLLOWING),5) AS Media "+
+	  "FROM ( "+
+	    "SELECT "+
+	      "TO_CHAR(data_venda, 'DD/MM/YY') as dia, "+
+	      "SUM(VENDA.TOTAL_DEVIDO) AS VENDAS_DIA "+
+	      "FROM VENDA "+
+	    filter+
+	    "ROWNUM <= " + maxRowsNumber +
+	    " GROUP BY (TO_CHAR(data_venda, 'MM/YY'), TO_CHAR(data_venda, 'DD/MM/YY'))) SOMA_SUBTOTAL";
 	
 	try {
         ArrayList<SalesMonthModel> list = new ArrayList<SalesMonthModel>();
         ResultSet rs = select(query);
         while(rs.next()){
+        	System.out.println("ok");
         	SalesMonthModel csm = 
         			new SalesMonthModel(
-        					rs.getString("date"),
-        					rs.getDouble("total"));
+        					rs.getString("Dia"),
+        					rs.getInt("VendasDia"),
+        					rs.getDouble("Media"));
         	
         		
         	list.add(csm);
-        	System.out.println("ok");
         }
         return list;
     } catch (SQLException ex) {
