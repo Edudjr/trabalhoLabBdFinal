@@ -43,11 +43,12 @@ public class MainApp extends Application {
 			e.printStackTrace();
 		}
 		
-		showCsmView();
+		//showCsmView();
+		showMainView();
 		database = new DatabaseManager();
 		database.openConnection();
-		//initMainList();
-		initCsmList();
+		initMainList();
+		//initCsmList();
 	}
 	
 	//Init lists
