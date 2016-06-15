@@ -9,6 +9,7 @@ import java.util.logging.Logger;
 import model.CustomerCountryStateModel;
 import model.CustomerShoppingModel;
 import model.Person;
+import model.ProductSalesCategoryModel;
 import model.SalesMonthModel;
 
 public class DatabaseManager {
@@ -98,6 +99,55 @@ public class DatabaseManager {
             					rs.getInt("Ano"));
             		
             	list.add(csm);
+            	System.out.println("ok");
+            }
+            return list;
+        } catch (SQLException ex) {
+            System.out.println(ex);
+            return null;
+        }
+    }
+
+    public ArrayList<ProductSalesCategoryModel> getPscArray(){
+    	
+    	String query = 
+        		"SELECT Sub.categoria, " +
+        		"SUB.NOME AS subcategoria, " +
+        		"P.NOME AS produto, " +
+        		"TO_CHAR(V.data_venda, 'MM/YY') AS data_venda, " +
+        		"COUNT(*) AS unidade, " +
+        		"SUM(V.subtotal) AS total_vendido, " +
+        		"DENSE_rank() over (PARTITION BY SUB.CATEGORIA  order by sum(v.subtotal) ) as rank_categoria, " +
+        		"DENSE_rank() over (partition by p.nome order by sum(v.subtotal) ) as rank_subcategoria, " +
+        		"DENSE_rank() over (order by sum(v.subtotal)) AS rank_geral " +
+        		"FROM Venda V " +
+        			"JOIN Venda_item VI " +
+        				"ON V.venda_id = VI.venda_id " +
+        			"JOIN Produto P " +
+        				"ON P.produto_id = VI.produto_id " +
+        			"JOIN Subcategoria Sub " +
+        				"ON P.subcategoria = Sub.subcategoria_id" +
+        			"WHERE data_venda LIKE '%/13' " +
+        			"GROUP BY ROLLUP(Sub.categoria, Sub.NOME, P.NOME, TO_CHAR(V.data_venda, 'MM/YY')) " +
+        			"ORDER BY Sub.CATEGORIA, sub.nome , p.nome, TO_CHAR(V.data_venda, 'MM/YY')";
+    	
+    	try {
+            ArrayList<ProductSalesCategoryModel> list = new ArrayList<ProductSalesCategoryModel>();
+            ResultSet rs = select(query);
+            while(rs.next()){
+            	ProductSalesCategoryModel psc = 
+            			new ProductSalesCategoryModel(
+            					rs.getString("categoria"),
+            					rs.getString("subcategoria"),
+            					rs.getString("produto"),
+            					rs.getString("data_venda"),
+            					rs.getInt("unidade"),
+            					rs.getFloat("total_vendido"),
+            					rs.getInt("rank_categoria"),
+            					rs.getInt("rank_subcategoria"),
+            					rs.getInt("rank_geral"));
+            		
+            	list.add(psc);
             	System.out.println("ok");
             }
             return list;

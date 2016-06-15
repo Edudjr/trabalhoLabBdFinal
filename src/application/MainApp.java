@@ -18,6 +18,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import model.Person;
+import model.ProductSalesCategoryModel;
 import model.SalesMonthModel;
 import model.CustomerCountryStateModel;
 import model.CustomerShoppingModel;
@@ -31,6 +32,7 @@ public class MainApp extends Application {
     private ObservableList<Person> personData = FXCollections.observableArrayList();
     private ObservableList<CustomerShoppingModel> csmData = FXCollections.observableArrayList();
     private ObservableList<CustomerCountryStateModel> ccsData = FXCollections.observableArrayList();
+    private ObservableList<ProductSalesCategoryModel> pscData = FXCollections.observableArrayList();
     private ObservableList<SalesMonthModel> smData = FXCollections.observableArrayList();
     
 	
@@ -176,6 +178,9 @@ public class MainApp extends Application {
     }
     public ObservableList<CustomerCountryStateModel> getCcsData(){
     	return ccsData;
+    }
+    public ObservableList<ProductSalesCategoryModel> getPscData(){
+    	return pscData;
     }
     public ObservableList<SalesMonthModel> getSmData(){
     	return smData;
