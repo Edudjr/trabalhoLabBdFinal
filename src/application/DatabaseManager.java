@@ -74,16 +74,16 @@ public class DatabaseManager {
     public ArrayList<CustomerShoppingModel> getCsmArray(String name, String clientId){
     	String filter = " ";
     	
-    	if (name != null){
+    	if (name != null && !name.isEmpty()){
     		filter = "WHERE P.NOME = '" + name+"' "; 
     	}
-    	if (clientId != null){
-    		filter = filter.concat("' OR P.PESSOA_ID = '"+clientId+"' ");
+    	if (clientId != null && !clientId.isEmpty()){
+    		filter = filter.concat(" OR P.PESSOA_ID = '"+clientId+"' ");
     	}
     	
     	
     	String query = 
-    			"SELECT  P.NOME AS Nome,  " +
+    			"SELECT P.NOME AS Nome,  " +
     			"TO_CHAR(V.data_venda, 'YYYY') AS Ano, COUNT(*) AS Compras, " +
     			"SUM(V.subtotal) AS TotalComprado " +
     			   "FROM Venda V " +
@@ -93,7 +93,7 @@ public class DatabaseManager {
     					"ON P.pessoa_id = C.pessoa_id " +
     			    filter +
     			    "AND ROWNUM <= " + maxRowsNumber +
-    					"GROUP BY ROLLUP (P.NOME, TO_CHAR(V.data_venda, 'YYYY')) " +
+    					" GROUP BY ROLLUP (P.NOME, TO_CHAR(V.data_venda, 'YYYY')) " +
     			   "ORDER BY P.NOME";
     	
     	try {

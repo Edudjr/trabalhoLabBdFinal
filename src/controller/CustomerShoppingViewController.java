@@ -1,9 +1,11 @@
 package controller;
 
+
 import application.MainApp;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import model.CustomerShoppingModel;
 
@@ -20,12 +22,19 @@ public class CustomerShoppingViewController {
     private TableView<CustomerShoppingModel> tableView;
     @FXML
     private TableColumn<CustomerShoppingModel, String> clientColumn;
+    //@FXML
+    //private TableColumn<CustomerShoppingModel, String> clientIdColumn;
     @FXML
     private TableColumn<CustomerShoppingModel, Double> totalSpentColumn;
     @FXML
     private TableColumn<CustomerShoppingModel, Integer> purchasesNumberColumn;
     @FXML
     private TableColumn<CustomerShoppingModel, Integer> yearColumn;
+    @FXML
+    private TextField clientNameTextfield;
+    @FXML
+    private TextField clientNumberTextfield;
+    
 
  // Reference to the main application
     private MainApp mainApp;
@@ -35,6 +44,8 @@ public class CustomerShoppingViewController {
     // Initialize the person table
         clientColumn.setCellValueFactory
         (new PropertyValueFactory<CustomerShoppingModel, String>("client"));
+        //clientIdColumn.setCellValueFactory
+        //(new PropertyValueFactory<CustomerShoppingModel, String>("clientId"));
         totalSpentColumn.setCellValueFactory
         (new PropertyValueFactory<CustomerShoppingModel, Double>("total"));
         purchasesNumberColumn.setCellValueFactory
@@ -56,5 +67,12 @@ public class CustomerShoppingViewController {
         
     }
 	
-	
+	@FXML
+    private void handleFilterButton() {
+      String name = clientNameTextfield.getText();
+      String clientId = clientNumberTextfield.getText();
+
+      mainApp.setCsmData(name, clientId);
+      tableView.setItems(mainApp.getCsmData());
+    }
 }

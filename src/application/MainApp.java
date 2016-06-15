@@ -58,7 +58,7 @@ public class MainApp extends Application {
 		//initMainList();
 		
 		showCsmView();
-		initCsmList();
+		initCsmList(null, null);
 	}
 	
 	//Init lists
@@ -71,10 +71,11 @@ public class MainApp extends Application {
 		}
 	}
 	
-	public void initCsmList(){
+	public void initCsmList(String name, String id){
 		ArrayList<CustomerShoppingModel> array = new ArrayList<CustomerShoppingModel>();
-		array = database.getCsmArray(null, null);
+		array = database.getCsmArray(name, id);
 		
+		csmData.clear();
 		for (CustomerShoppingModel csm : array){
 			csmData.add(csm);
 		}
@@ -182,5 +183,10 @@ public class MainApp extends Application {
     }
     public ObservableList<SalesMonthModel> getSmData(){
     	return smData;
+    }
+    
+    //Filter
+    public void setCsmData(String name, String id){
+    	this.initCsmList(name, id);
     }
 }
