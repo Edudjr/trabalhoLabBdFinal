@@ -16,6 +16,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import model.Person;
+import model.CustomerCountryStateModel;
 import model.CustomerShoppingModel;
 
 public class MainApp extends Application {
@@ -26,6 +27,7 @@ public class MainApp extends Application {
     //Retrieve data
     private ObservableList<Person> personData = FXCollections.observableArrayList();
     private ObservableList<CustomerShoppingModel> csmData = FXCollections.observableArrayList();
+    private ObservableList<CustomerCountryStateModel> ccsData = FXCollections.observableArrayList();
 	
 	@Override
 	public void start(Stage primaryStage) {
@@ -110,10 +112,14 @@ public class MainApp extends Application {
 		return this.primaryStage;
 	}
 	
+	//Return observable lists
     public ObservableList<Person> getPersonData() {
         return personData;
     }
     public ObservableList<CustomerShoppingModel> getCsmData(){
     	return csmData;
+    }
+    public ObservableList<CustomerCountryStateModel> getCcsData(){
+    	return ccsData;
     }
 }

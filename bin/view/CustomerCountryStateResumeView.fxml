@@ -1,8 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1">
-	<!-- TODO Add Nodes -->
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.CustomerShoppingViewController">
+   <children>
+      <TableView fx:id="tableView" layoutX="200.0" layoutY="144.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="50.0">
+        <columns>
+          <TableColumn fx:id="countryColumn" prefWidth="74.0" text="País" />
+          <TableColumn fx:id="stateColumn" prefWidth="109.0" text="Estado" />
+            <TableColumn fx:id="totalColumn" prefWidth="75.0" text="Total" />
+        </columns>
+      </TableView>
+      <Label alignment="CENTER" layoutX="247.0" layoutY="14.0" text="Clientes por país e estado" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0" AnchorPane.topAnchor="10.0">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Label>
+   </children>
 </AnchorPane>
-

@@ -13,12 +13,6 @@ public class CustomerShoppingModel {
     public CustomerShoppingModel() {
     }
 
-    /**
-     * Constructor with some initial data.
-     * 
-     * @param firstName
-     * @param lastName
-     */
     public CustomerShoppingModel(String client,
     		String clientId,
     		Double total, 

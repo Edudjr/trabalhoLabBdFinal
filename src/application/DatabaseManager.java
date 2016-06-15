@@ -6,6 +6,7 @@ import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import model.CustomerCountryStateModel;
 import model.CustomerShoppingModel;
 import model.Person;
 
@@ -94,6 +95,42 @@ public class DatabaseManager {
             					rs.getDouble("Soma"),
             					rs.getInt("Numero"),
             					rs.getInt("Ano"));
+            		
+            	list.add(csm);
+            	System.out.println("ok");
+            }
+            return list;
+        } catch (SQLException ex) {
+            System.out.println(ex);
+            return null;
+        }
+    }
+    
+public ArrayList<CustomerCountryStateModel> getCcsArray(String name, String clientId){
+    	
+    	String query = 
+    	"SELECT EST.PAIS AS pais, EST.NOME AS estado , COUNT(C.CLIENTE_ID) AS total "+
+    	  "FROM CLIENTE C "+
+    	    "JOIN PESSOA P "+
+    	      "ON C.PESSOA_ID = P.PESSOA_ID "+
+    	    "JOIN ENDERECO ENDE "+
+    	      "ON P.PESSOA_ID = ENDE.PESSOA_ID "+
+    	    "JOIN ESTADO EST "+
+    	      "ON ENDE.ESTADO_ID = EST.ESTADO_ID "+
+    	      "WHERE ROWNUM <= " + maxRowsNumber +
+    	  "GROUP BY ROLLUP (EST.PAIS, EST.NOME) "+
+    	  "ORDER BY PAIS";
+    	
+    	try {
+            ArrayList<CustomerCountryStateModel> list = new ArrayList<CustomerCountryStateModel>();
+            ResultSet rs = select(query);
+            while(rs.next()){
+            	CustomerCountryStateModel csm = 
+            			new CustomerCountryStateModel(
+            					rs.getString("pais"),
+            					rs.getString("estado"),
+            					rs.getInt("total"));
+            	
             		
             	list.add(csm);
             	System.out.println("ok");
