@@ -8,6 +8,7 @@ import java.util.Vector;
 import controller.CustomerCountryStateViewController;
 import controller.CustomerShoppingViewController;
 import controller.PersonViewController;
+import controller.ProductSalesCategoryViewController;
 import controller.SalesMonthViewController;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
@@ -18,6 +19,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import model.Person;
+import model.ProductSalesCategoryModel;
 import model.SalesMonthModel;
 import model.CustomerCountryStateModel;
 import model.CustomerShoppingModel;
@@ -31,6 +33,7 @@ public class MainApp extends Application {
     private ObservableList<Person> personData = FXCollections.observableArrayList();
     private ObservableList<CustomerShoppingModel> csmData = FXCollections.observableArrayList();
     private ObservableList<CustomerCountryStateModel> ccsData = FXCollections.observableArrayList();
+    private ObservableList<ProductSalesCategoryModel> pscData = FXCollections.observableArrayList();
     private ObservableList<SalesMonthModel> smData = FXCollections.observableArrayList();
     
 	
@@ -56,12 +59,13 @@ public class MainApp extends Application {
 		//Show each screen individually
 		//showMainView();
 		
-		showCsmView();
+		//showCsmView();
 		
 		//showCcsView();
 		
 		//showSmView();
 		
+		showPscView();
 	}
 	
 	//Init lists
@@ -101,6 +105,16 @@ public class MainApp extends Application {
 		smData.clear();
 		for (SalesMonthModel item : array){
 			smData.add(item);
+		}
+	}
+	
+	public void initPscList(String year){
+		ArrayList<ProductSalesCategoryModel> array = new ArrayList<ProductSalesCategoryModel>();
+		array = database.getPscArray(year); //passar mes
+		
+		pscData.clear();
+		for (ProductSalesCategoryModel item : array){
+			pscData.add(item);
 		}
 	}
 	
@@ -171,6 +185,23 @@ public class MainApp extends Application {
 		}
 	}
 	
+	public void showPscView(){
+		try{
+			FXMLLoader loader = new FXMLLoader
+					(MainApp.class.getResource("/view/ProductSalesCategoryResumeView.fxml"));
+			AnchorPane mainView = (AnchorPane) loader.load();
+			rootLayout.setCenter(mainView);
+			
+			//Give the controller access to the main app
+			ProductSalesCategoryViewController controller = loader.getController();
+			controller.setMainApp(this);
+			
+			initPscList(null);
+		}catch(IOException e){
+			e.printStackTrace();
+		}
+	}
+	
 	public static void main(String[] args) {
 		launch(args);
 	}
@@ -188,6 +219,9 @@ public class MainApp extends Application {
     }
     public ObservableList<CustomerCountryStateModel> getCcsData(){
     	return ccsData;
+    }
+    public ObservableList<ProductSalesCategoryModel> getPscData(){
+    	return pscData;
     }
     public ObservableList<SalesMonthModel> getSmData(){
     	return smData;

@@ -1,8 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1">
-	<!-- TODO Add Nodes -->
+<AnchorPane prefHeight="400.0" prefWidth="800.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ProductSalesCategoryViewController">
+   <children>
+      <TableView fx:id="tableView" layoutX="14.0" layoutY="50.0" prefHeight="336.0" prefWidth="771.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="50.0">
+        <columns>
+          <TableColumn fx:id="categoriaColumn" prefWidth="142.0" text="Categoria" />
+          <TableColumn fx:id="subcategoriaColumn" prefWidth="147.0" text="Subcategoria" />
+            <TableColumn fx:id="produtoColumn" minWidth="0.0" prefWidth="112.0" text="Produto" />
+            <TableColumn fx:id="mesColumn" prefWidth="40.0" text="Mes" />
+            <TableColumn fx:id="unidadeColumn" prefWidth="41.0" text="Unid." />
+            <TableColumn fx:id="total_vendidoColumn" prefWidth="88.0" text="Total Vendido" />
+            <TableColumn fx:id="rank_categoriaColumn" prefWidth="57.0" text="Rnk Cat." />
+            <TableColumn fx:id="rank_subcategoriaColumn" prefWidth="73.0" text="Rnk Subc." />
+            <TableColumn fx:id="rank_geralColumn" prefWidth="70.0" text="Rnk Geral" />
+        </columns>
+      </TableView>
+      <Label alignment="CENTER" layoutX="282.0" layoutY="14.0" prefHeight="20.0" prefWidth="237.0" text="Vendas de Produtos por Categoria" textAlignment="CENTER" AnchorPane.leftAnchor="150.0" AnchorPane.rightAnchor="150.0" AnchorPane.topAnchor="15.0">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Label>
+   </children>
 </AnchorPane>
-
