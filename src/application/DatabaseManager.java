@@ -101,7 +101,6 @@ public class DatabaseManager {
 			ArrayList<CustomerShoppingModel> list = new ArrayList<CustomerShoppingModel>();
 			ResultSet rs = select(query);
 			while(rs.next()){
-				System.out.println("ok");
 				CustomerShoppingModel csm = 
 						new CustomerShoppingModel(
 								rs.getString("Nome"),
@@ -166,7 +165,6 @@ public class DatabaseManager {
 								rs.getInt("rank_geral"));
 
 				list.add(psc);
-				System.out.println("ok");
 			}
 			return list;
 		} catch (SQLException ex) {
@@ -201,7 +199,6 @@ public class DatabaseManager {
 
 
 				list.add(csm);
-				System.out.println("ok");
 			}
 			return list;
 		} catch (SQLException ex) {
@@ -235,7 +232,6 @@ public class DatabaseManager {
 			ArrayList<SalesMonthModel> list = new ArrayList<SalesMonthModel>();
 			ResultSet rs = select(query);
 			while(rs.next()){
-				System.out.println("ok");
 				SalesMonthModel csm = 
 						new SalesMonthModel(
 								rs.getString("Dia"),

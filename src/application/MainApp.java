@@ -9,6 +9,7 @@ import controller.CustomerCountryStateViewController;
 import controller.CustomerShoppingViewController;
 import controller.PersonViewController;
 import controller.ProductSalesCategoryViewController;
+import controller.RootViewController;
 import controller.SalesMonthViewController;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
@@ -49,6 +50,10 @@ public class MainApp extends Application {
 			primaryStage.setScene(scene);
 			primaryStage.show();
 			
+			// Give the controller access to the main app
+		    RootViewController controller = loader.getController();
+		    controller.setMainApp(this);
+			
 		}catch(IOException e){
 			e.printStackTrace();
 		}
@@ -65,7 +70,7 @@ public class MainApp extends Application {
 		
 		//showSmView();
 		
-		showPscView();
+		//showPscView();
 	}
 	
 	//Init lists
@@ -145,7 +150,15 @@ public class MainApp extends Application {
 			CustomerShoppingViewController controller = loader.getController();
 			controller.setMainApp(this);
 			
-			initCsmList(null, null);
+			Thread t = new Thread() {
+			    public void run() {
+			        System.out.println("blah");
+			        initCsmList(null, null);
+			    }
+			};
+			t.start();
+			
+			
 		}catch(IOException e){
 			e.printStackTrace();
 		}
