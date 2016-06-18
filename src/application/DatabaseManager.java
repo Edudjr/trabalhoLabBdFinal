@@ -1,6 +1,8 @@
 package application;
 
 import java.sql.* ;  // for standard JDBC programs
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Vector;
 import java.util.logging.Level;
@@ -208,9 +210,10 @@ public class DatabaseManager {
 	}
 
 	public ArrayList<SalesMonthModel> getSmArray(String mes){
+		
 		String filter = "";
 		if(mes != null && !mes.isEmpty()){
-			filter = "WHERE DATA_VENDA LIKE '%/"+mes+"/12' AND ";
+			filter = "WHERE EXTRACT(MONTH from DATA_VENDA) = "+mes+" AND ";
 		}else{
 			filter = "WHERE ";
 		}
@@ -230,7 +233,9 @@ public class DatabaseManager {
 
 		try {
 			ArrayList<SalesMonthModel> list = new ArrayList<SalesMonthModel>();
+					
 			ResultSet rs = select(query);
+			
 			while(rs.next()){
 				SalesMonthModel csm = 
 						new SalesMonthModel(
@@ -244,8 +249,9 @@ public class DatabaseManager {
 			return list;
 		} catch (SQLException ex) {
 			System.out.println(ex);
-			return null;
 		}
+		
+		return null;
 	}
 
 
