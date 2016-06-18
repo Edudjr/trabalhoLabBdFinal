@@ -9,6 +9,7 @@ import controller.CustomerCountryStateViewController;
 import controller.CustomerShoppingViewController;
 import controller.PersonViewController;
 import controller.ProductSalesCategoryViewController;
+import controller.RootViewController;
 import controller.SalesMonthViewController;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
@@ -21,6 +22,7 @@ import javafx.stage.Stage;
 import model.Person;
 import model.ProductSalesCategoryModel;
 import model.SalesMonthModel;
+import model.TaxesPaidModel;
 import model.CustomerCountryStateModel;
 import model.CustomerShoppingModel;
 
@@ -35,6 +37,7 @@ public class MainApp extends Application {
     private ObservableList<CustomerCountryStateModel> ccsData = FXCollections.observableArrayList();
     private ObservableList<ProductSalesCategoryModel> pscData = FXCollections.observableArrayList();
     private ObservableList<SalesMonthModel> smData = FXCollections.observableArrayList();
+    private ObservableList<TaxesPaidModel> tpData = FXCollections.observableArrayList();
     
 	
 	@Override
@@ -48,6 +51,10 @@ public class MainApp extends Application {
 			Scene scene = new Scene(this.rootLayout);
 			primaryStage.setScene(scene);
 			primaryStage.show();
+			
+			// Give the controller access to the main app
+		    RootViewController controller = loader.getController();
+		    controller.setMainApp(this);
 			
 		}catch(IOException e){
 			e.printStackTrace();
@@ -65,7 +72,7 @@ public class MainApp extends Application {
 		
 		//showSmView();
 		
-		showPscView();
+		//showPscView();
 	}
 	
 	//Init lists
@@ -118,6 +125,16 @@ public class MainApp extends Application {
 		}
 	}
 	
+	public void initTpList(String year){
+		ArrayList<TaxesPaidModel> array = new ArrayList<TaxesPaidModel>();
+		array = database.getTpArray(year);
+		
+		pscData.clear();
+		for (TaxesPaidModel item : array){
+			tpData.add(item);
+		}
+	}
+	
 	//Show Views
 	public void showMainView(){
 		try{
@@ -145,7 +162,15 @@ public class MainApp extends Application {
 			CustomerShoppingViewController controller = loader.getController();
 			controller.setMainApp(this);
 			
-			initCsmList(null, null);
+			Thread t = new Thread() {
+			    public void run() {
+			        System.out.println("blah");
+			        initCsmList(null, null);
+			    }
+			};
+			t.start();
+			
+			
 		}catch(IOException e){
 			e.printStackTrace();
 		}
@@ -225,6 +250,9 @@ public class MainApp extends Application {
     }
     public ObservableList<SalesMonthModel> getSmData(){
     	return smData;
+    }
+    public ObservableList<TaxesPaidModel> getTpData(){
+    	return tpData;
     }
     
     //Filter
