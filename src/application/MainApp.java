@@ -3,15 +3,9 @@ package application;
 import java.io.IOException;
 
 import java.util.ArrayList;
-import java.util.Vector;
 
-import controller.CustomerCountryStateViewController;
-import controller.CustomerShoppingViewController;
 import controller.PersonViewController;
-import controller.ProductSalesCategoryViewController;
 import controller.RootViewController;
-import controller.SalesMonthViewController;
-import controller.TaxesPaidViewController;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -21,11 +15,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import model.Person;
-import model.ProductSalesCategoryModel;
-import model.SalesMonthModel;
-import model.TaxesPaidModel;
-import model.CustomerCountryStateModel;
-import model.CustomerShoppingModel;
+
 
 public class MainApp extends Application {
 	private Stage primaryStage;
@@ -34,7 +24,6 @@ public class MainApp extends Application {
     
     //Retrieve data
     private ObservableList<Person> personData = FXCollections.observableArrayList();
-    
 	
 	@Override
 	public void start(Stage primaryStage) {
@@ -71,6 +60,8 @@ public class MainApp extends Application {
 		//showPscView();
 		
 		//showTpView();
+		
+		//showSysView();
 	}
 	
 	//Init lists
@@ -159,6 +150,18 @@ public class MainApp extends Application {
 		}
 	}
 	
+	public void showSysView(){
+		try{
+			FXMLLoader loader = new FXMLLoader
+					(MainApp.class.getResource("/view/SalesYearStateResumeView.fxml"));
+			AnchorPane mainView = (AnchorPane) loader.load();
+			rootLayout.setCenter(mainView);
+			
+		}catch(IOException e){
+			e.printStackTrace();
+		}
+	}
+
 	public static void main(String[] args) {
 		launch(args);
 	}

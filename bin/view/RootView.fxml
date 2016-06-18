@@ -29,7 +29,7 @@
                   <MenuItem mnemonicParsing="false" text="Vendas no ano" />
                   <MenuItem mnemonicParsing="false" text="Produtos vendidos na mesma venda" />
                   <MenuItem mnemonicParsing="false" onAction="#handleTpClick" text="Impostos pagos no ano" />
-                  <MenuItem mnemonicParsing="false" text="Vendas por país e estado" />
+                  <MenuItem mnemonicParsing="false" onAction="#handleSysClick" text="Vendas por país e estado" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Ajuda">

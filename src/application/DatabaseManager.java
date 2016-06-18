@@ -8,6 +8,7 @@ import model.CustomerShoppingModel;
 import model.Person;
 import model.ProductSalesCategoryModel;
 import model.SalesMonthModel;
+import model.SalesYearStateModel;
 import model.TaxesPaidModel;
 
 public class DatabaseManager {
@@ -303,6 +304,65 @@ public class DatabaseManager {
 		
 		return null;
 	}
+	
+	public ArrayList<SalesYearStateModel> getSysArray(){
+		String query = 
+				"SELECT TOTAL.PAIS, " +
+						"NOME.ESTADO, " +
+						"NOME.TOTAL_ESTADO, " +
+						"TRUNC(((NOME.TOTAL_ESTADO * 100)/TOTAL.VENDA_TOTAL_PAIS),4) AS PORCENTAGEM_PAIS, " +
+						"TRUNC(((NOME.TOTAL_ESTADO * 100)/TOTAL_MUNDO.VENDA_TOTAL_MUNDO),4) AS PORCENTAGEM_MUNDO " +
+						"FROM ( " +
+							"SELECT EST.PAIS AS PAIS, " + 
+								"EST.NOME AS ESTADO, "+ 
+								"SUM(SUBTOTAL) AS TOTAL_ESTADO " +
+								"FROM VENDA V " +
+								"JOIN ENDERECO ENDE " +
+									"ON V.ENDERECO_ENTREGA = ENDE.ENDERECO_ID " +
+								"JOIN ESTADO EST " +
+									"ON ENDE.ESTADO_ID = EST.ESTADO_ID " +
+								"GROUP BY (EST.PAIS, EST.NOME) " +
+								"ORDER BY EST.PAIS) NOME, " +
+							"(SELECT EST.PAIS AS PAIS, " +
+								"SUM(SUBTOTAL) AS VENDA_TOTAL_PAIS " +
+								"FROM VENDA V " +
+								"JOIN ENDERECO ENDE " +
+									"ON V.ENDERECO_ENTREGA = ENDE.ENDERECO_ID " +
+								"JOIN ESTADO EST " +
+									"ON ENDE.ESTADO_ID = EST.ESTADO_ID " +
+								"GROUP BY (EST.PAIS) " +
+								"ORDER BY EST.PAIS) TOTAL, " +
+							"(SELECT SUM(SUBTOTAL) AS VENDA_TOTAL_MUNDO " +
+								"FROM VENDA V " +
+								"JOIN ENDERECO ENDE " +
+									"ON V.ENDERECO_ENTREGA = ENDE.ENDERECO_ID " +
+								"JOIN ESTADO EST " +
+									"ON ENDE.ESTADO_ID = EST.ESTADO_ID) TOTAL_MUNDO " +
+						"WHERE NOME.PAIS = TOTAL.PAIS " +
+						"AND ROWNUM <= " + maxRowsNumber +
+						" ORDER BY NOME.PAIS, PORCENTAGEM_PAIS DESC, PORCENTAGEM_MUNDO DESC";
+
+		try {
+			ArrayList<SalesYearStateModel> list = new ArrayList<SalesYearStateModel>();
+			ResultSet rs = select(query);
+			while(rs.next()){
+				SalesYearStateModel sys = 
+						new SalesYearStateModel(
+								rs.getString("pais"),
+								rs.getString("estado"),
+								rs.getDouble("total_estado"),
+								rs.getDouble("porcentagem_pais"),
+								rs.getDouble("porcentagem_mundo"));
+
+				list.add(sys);	
+			}
+			return list;
+		} catch (SQLException ex) {
+			System.out.println(ex);
+			return null;
+		}
+	}
+	
 
 
 	public boolean closeConnection(){
