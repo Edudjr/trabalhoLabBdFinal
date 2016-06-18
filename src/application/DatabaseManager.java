@@ -11,6 +11,7 @@ import model.CustomerShoppingModel;
 import model.Person;
 import model.ProductSalesCategoryModel;
 import model.SalesMonthModel;
+import model.TaxesPaidModel;
 
 public class DatabaseManager {
 	private final String username = "r7962006";
@@ -175,6 +176,48 @@ public class DatabaseManager {
 		}
 	}
 
+	public ArrayList<TaxesPaidModel> getTpArray(String year){
+		String filter = " ";
+		if(year != null && !year.isEmpty()){
+			filter = "WHERE data_venda LIKE '%/"+year+"' AND ";
+		}else{
+			filter = "WHERE ";
+		}
+		
+		String query = 
+				"SELECT E.nome AS estado, TO_CHAR(V.data_venda, 'MM/YY') AS mes, SUM(I.taxa) AS total_imposto " +
+						"FROM Venda V " +
+						"JOIN Endereco En " +
+						"ON V.ENDERECO_ENTREGA = En.endereco_id " +
+						"JOIN Estado E " +
+						"ON En.estado_id = E.estado_id " +
+						"JOIN Imposto I " +
+						"ON E.estado_id = I.estado_id " +
+						filter +
+						"ROWNUM <= " + maxRowsNumber +
+						" GROUP BY ROLLUP(E.nome, TO_CHAR(V.data_venda, 'MM/YY')) " +
+						"ORDER BY E.nome, TO_CHAR(V.data_venda, 'MM/YY')";
+
+		try {
+			ArrayList<TaxesPaidModel> list = new ArrayList<TaxesPaidModel>();
+			ResultSet rs = select(query);
+			while(rs.next()){
+				TaxesPaidModel tp = 
+						new TaxesPaidModel(
+								rs.getString("estado"),
+								rs.getString("mes"),
+								rs.getDouble("total_imposto"));
+
+				list.add(tp);
+				System.out.println("ok");
+			}
+			return list;
+		} catch (SQLException ex) {
+			System.out.println(ex);
+			return null;
+		}
+	}
+	
 	public ArrayList<CustomerCountryStateModel> getCcsArray(){
 
 		String query = 
