@@ -8,10 +8,9 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.60" fx:controller="controller.TaxesPaidViewController">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.TaxesPaidViewController">
    <children>
-      <TableView fx:id="taxesTable" layoutX="14.0" layoutY="179.0" prefHeight="247.0" prefWidth="580.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
+      <TableView fx:id="tableView" layoutX="14.0" layoutY="179.0" prefHeight="247.0" prefWidth="580.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
         <columns>
           <TableColumn fx:id="stateColumn" prefWidth="270.0" text="Estado" />
           <TableColumn fx:id="monthColumn" prefWidth="99.0" text="Mes" />
@@ -29,7 +28,7 @@
          </font>
       </Label>
       <Label layoutX="15.0" layoutY="57.0" text="Ano" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="50.0" />
-      <TextField fx:id="yearTextField" layoutX="15.0" layoutY="67.0" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="70.0" />
+      <TextField fx:id="yearTextfield" layoutX="15.0" layoutY="67.0" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="70.0" />
       <Button layoutX="24.0" layoutY="110.0" mnemonicParsing="false" onAction="#handleFilterButton" text="Filtrar" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="100.0" />
    </children>
 </AnchorPane>

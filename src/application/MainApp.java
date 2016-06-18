@@ -11,6 +11,7 @@ import controller.PersonViewController;
 import controller.ProductSalesCategoryViewController;
 import controller.RootViewController;
 import controller.SalesMonthViewController;
+import controller.TaxesPaidViewController;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -73,6 +74,8 @@ public class MainApp extends Application {
 		//showSmView();
 		
 		//showPscView();
+		
+		showTpView();
 	}
 	
 	//Init lists
@@ -227,6 +230,23 @@ public class MainApp extends Application {
 		}
 	}
 	
+	public void showTpView(){
+		try{
+			FXMLLoader loader = new FXMLLoader
+					(MainApp.class.getResource("/view/TaxesPaidResumeView.fxml"));
+			AnchorPane mainView = (AnchorPane) loader.load();
+			rootLayout.setCenter(mainView);
+			
+			//Give the controller access to the main app
+			TaxesPaidViewController controller = loader.getController();
+			controller.setMainApp(this);
+			
+			initTpList(null);
+		}catch(IOException e){
+			e.printStackTrace();
+		}
+	}
+	
 	public static void main(String[] args) {
 		launch(args);
 	}
@@ -262,5 +282,9 @@ public class MainApp extends Application {
 
 	public void setSmData(String month) {
 		this.initSmList(month);
+	}
+	
+	public void setTpData(String year) {
+		this.initTpList(year);
 	}
 }

@@ -4,6 +4,7 @@ import application.MainApp;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import model.CustomerCountryStateModel;
 import model.TaxesPaidModel;
@@ -26,6 +27,8 @@ public class TaxesPaidViewController {
     private TableColumn<TaxesPaidModel, String> monthColumn;
     @FXML
     private TableColumn<TaxesPaidModel, Double> taxesColumn;
+    @FXML
+    private TextField yearTextfield;
 
     // Reference to the main application
     private MainApp mainApp;
@@ -47,9 +50,15 @@ public class TaxesPaidViewController {
         this.mainApp = mainApp;
 
         // Add observable list data to the table
-        //tableView.setItems(mainApp.getPersonData());
         tableView.setItems(mainApp.getTpData());
         
     }
-    
+
+	@FXML
+    private void handleFilterButton() {
+      String year = yearTextfield.getText();
+
+      mainApp.setTpData(year);
+      tableView.setItems(mainApp.getTpData());
+    }	
 }
