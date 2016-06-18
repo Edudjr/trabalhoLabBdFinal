@@ -11,6 +11,7 @@ import controller.PersonViewController;
 import controller.ProductSalesCategoryViewController;
 import controller.RootViewController;
 import controller.SalesMonthViewController;
+import controller.SalesYearStateViewController;
 import controller.TaxesPaidViewController;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
@@ -23,6 +24,7 @@ import javafx.stage.Stage;
 import model.Person;
 import model.ProductSalesCategoryModel;
 import model.SalesMonthModel;
+import model.SalesYearStateModel;
 import model.TaxesPaidModel;
 import model.CustomerCountryStateModel;
 import model.CustomerShoppingModel;
@@ -39,7 +41,7 @@ public class MainApp extends Application {
     private ObservableList<ProductSalesCategoryModel> pscData = FXCollections.observableArrayList();
     private ObservableList<SalesMonthModel> smData = FXCollections.observableArrayList();
     private ObservableList<TaxesPaidModel> tpData = FXCollections.observableArrayList();
-    
+    private ObservableList<SalesYearStateModel> sysData = FXCollections.observableArrayList();
 	
 	@Override
 	public void start(Stage primaryStage) {
@@ -75,7 +77,9 @@ public class MainApp extends Application {
 		
 		//showPscView();
 		
-		showTpView();
+		//showTpView();
+		
+		showSysView();
 	}
 	
 	//Init lists
@@ -137,6 +141,17 @@ public class MainApp extends Application {
 			tpData.add(item);
 		}
 	}
+	
+	public void initSysList(){
+		ArrayList<SalesYearStateModel> array = new ArrayList<SalesYearStateModel>();
+		array = database.getSysArray();
+		
+		sysData.clear();
+		for (SalesYearStateModel item : array){
+			sysData.add(item);
+		}
+	}
+	
 	
 	//Show Views
 	public void showMainView(){
@@ -247,6 +262,23 @@ public class MainApp extends Application {
 		}
 	}
 	
+	public void showSysView(){
+		try{
+			FXMLLoader loader = new FXMLLoader
+					(MainApp.class.getResource("/view/SalesYearStateResumeView.fxml"));
+			AnchorPane mainView = (AnchorPane) loader.load();
+			rootLayout.setCenter(mainView);
+			
+			//Give the controller access to the main app
+			SalesYearStateViewController controller = loader.getController();
+			//controller.setMainApp(this);
+			
+			initSysList();
+		}catch(IOException e){
+			e.printStackTrace();
+		}
+	}
+
 	public static void main(String[] args) {
 		launch(args);
 	}
@@ -273,6 +305,9 @@ public class MainApp extends Application {
     }
     public ObservableList<TaxesPaidModel> getTpData(){
     	return tpData;
+    }
+    public ObservableList<SalesYearStateModel> getSysData(){
+    	return sysData;
     }
     
     //Filter
