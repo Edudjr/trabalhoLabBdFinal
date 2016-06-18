@@ -1,12 +1,7 @@
 package application;
 
 import java.sql.* ;  // for standard JDBC programs
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Vector;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import model.CustomerCountryStateModel;
 import model.CustomerShoppingModel;
@@ -20,6 +15,19 @@ public class DatabaseManager {
 	private final String password = "r7962006";
 	public Connection connection = null;
 	public Integer maxRowsNumber = 50;
+	
+	private static DatabaseManager instance = null;
+	
+	private DatabaseManager() {
+		// Exists only to defeat instantiation.
+	}
+	public static DatabaseManager getInstance() {
+		if(instance == null) {
+			instance = new DatabaseManager();
+		}
+		return instance;
+	}
+
 
 	public void openConnection(){
 		try {
@@ -124,7 +132,7 @@ public class DatabaseManager {
 	public ArrayList<ProductSalesCategoryModel> getPscArray(String year){
 		String filter = " ";
 		if(year != null && !year.isEmpty()){
-			filter = "WHERE data_venda LIKE '%/"+year+"' AND ";
+			filter = "WHERE EXTRACT(YEAR from data_venda) = "+year+" AND ";
 		}else{
 			filter = "WHERE ";
 		}
@@ -179,7 +187,7 @@ public class DatabaseManager {
 	public ArrayList<TaxesPaidModel> getTpArray(String year){
 		String filter = " ";
 		if(year != null && !year.isEmpty()){
-			filter = "WHERE data_venda LIKE '%/"+year+"' AND ";
+			filter = "WHERE EXTRACT(YEAR from data_venda) = "+year+" AND ";
 		}else{
 			filter = "WHERE ";
 		}
@@ -209,7 +217,6 @@ public class DatabaseManager {
 								rs.getDouble("total_imposto"));
 
 				list.add(tp);
-				System.out.println("ok");
 			}
 			return list;
 		} catch (SQLException ex) {

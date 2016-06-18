@@ -30,20 +30,27 @@ public class RootViewController {
     //Menu Items click
     @FXML
     private void handleSmClick() {
-    	System.out.println("click");
     	mainApp.showSmView();
     }
     
     @FXML
     private void handleCcsClick() {
-    	System.out.println("click");
     	mainApp.showCcsView();
     }
     
     @FXML
     private void handleCsmClick() {
-    	System.out.println("click");
     	mainApp.showCsmView();
+    }
+    
+    @FXML
+    private void handlePscClick() {
+    	mainApp.showPscView();
+    }
+    
+    @FXML
+    private void handleTpClick() {
+    	mainApp.showTpView();
     }
     
 }

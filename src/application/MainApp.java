@@ -34,11 +34,6 @@ public class MainApp extends Application {
     
     //Retrieve data
     private ObservableList<Person> personData = FXCollections.observableArrayList();
-    private ObservableList<CustomerShoppingModel> csmData = FXCollections.observableArrayList();
-    private ObservableList<CustomerCountryStateModel> ccsData = FXCollections.observableArrayList();
-    private ObservableList<ProductSalesCategoryModel> pscData = FXCollections.observableArrayList();
-    private ObservableList<SalesMonthModel> smData = FXCollections.observableArrayList();
-    private ObservableList<TaxesPaidModel> tpData = FXCollections.observableArrayList();
     
 	
 	@Override
@@ -61,7 +56,7 @@ public class MainApp extends Application {
 			e.printStackTrace();
 		}
 		
-		database = new DatabaseManager();
+		database = DatabaseManager.getInstance();
 		database.openConnection();
 		
 		//Show each screen individually
@@ -75,7 +70,7 @@ public class MainApp extends Application {
 		
 		//showPscView();
 		
-		showTpView();
+		//showTpView();
 	}
 	
 	//Init lists
@@ -85,56 +80,6 @@ public class MainApp extends Application {
 		
 		for (Person person : people){
 			personData.add(person);
-		}
-	}
-	
-	public void initCsmList(String name, String id){
-		ArrayList<CustomerShoppingModel> array = new ArrayList<CustomerShoppingModel>();
-		array = database.getCsmArray(name, id);
-		
-		csmData.clear();
-		for (CustomerShoppingModel csm : array){
-			csmData.add(csm);
-		}
-	}
-	
-	public void initCcsList(){
-		ArrayList<CustomerCountryStateModel> array = new ArrayList<CustomerCountryStateModel>();
-		array = database.getCcsArray();
-		
-		ccsData.clear();
-		for (CustomerCountryStateModel item : array){
-			ccsData.add(item);
-		}
-	}
-	
-	public void initSmList(String month){
-		ArrayList<SalesMonthModel> array = new ArrayList<SalesMonthModel>();
-		array = database.getSmArray(month); //passar mes
-		
-		smData.clear();
-		for (SalesMonthModel item : array){
-			smData.add(item);
-		}
-	}
-	
-	public void initPscList(String year){
-		ArrayList<ProductSalesCategoryModel> array = new ArrayList<ProductSalesCategoryModel>();
-		array = database.getPscArray(year); //passar mes
-		
-		pscData.clear();
-		for (ProductSalesCategoryModel item : array){
-			pscData.add(item);
-		}
-	}
-	
-	public void initTpList(String year){
-		ArrayList<TaxesPaidModel> array = new ArrayList<TaxesPaidModel>();
-		array = database.getTpArray(year);
-		
-		pscData.clear();
-		for (TaxesPaidModel item : array){
-			tpData.add(item);
 		}
 	}
 	
@@ -160,20 +105,7 @@ public class MainApp extends Application {
 					(MainApp.class.getResource("/view/CustomerShoppingResumeView.fxml"));
 			AnchorPane mainView = (AnchorPane) loader.load();
 			rootLayout.setCenter(mainView);
-			
-			//Give the controller access to the main app
-			CustomerShoppingViewController controller = loader.getController();
-			controller.setMainApp(this);
-			
-			Thread t = new Thread() {
-			    public void run() {
-			        System.out.println("blah");
-			        initCsmList(null, null);
-			    }
-			};
-			t.start();
-			
-			
+		
 		}catch(IOException e){
 			e.printStackTrace();
 		}
@@ -186,11 +118,6 @@ public class MainApp extends Application {
 			AnchorPane mainView = (AnchorPane) loader.load();
 			rootLayout.setCenter(mainView);
 			
-			//Give the controller access to the main app
-			CustomerCountryStateViewController controller = loader.getController();
-			controller.setMainApp(this);
-			
-			initCcsList();
 		}catch(IOException e){
 			e.printStackTrace();
 		}
@@ -202,12 +129,7 @@ public class MainApp extends Application {
 					(MainApp.class.getResource("/view/SalesMonthResumeView.fxml"));
 			AnchorPane mainView = (AnchorPane) loader.load();
 			rootLayout.setCenter(mainView);
-			
-			//Give the controller access to the main app
-			SalesMonthViewController controller = loader.getController();
-			controller.setMainApp(this);
-			
-			initSmList(null);
+
 		}catch(IOException e){
 			e.printStackTrace();
 		}
@@ -220,11 +142,6 @@ public class MainApp extends Application {
 			AnchorPane mainView = (AnchorPane) loader.load();
 			rootLayout.setCenter(mainView);
 			
-			//Give the controller access to the main app
-			ProductSalesCategoryViewController controller = loader.getController();
-			controller.setMainApp(this);
-			
-			initPscList(null);
 		}catch(IOException e){
 			e.printStackTrace();
 		}
@@ -237,11 +154,6 @@ public class MainApp extends Application {
 			AnchorPane mainView = (AnchorPane) loader.load();
 			rootLayout.setCenter(mainView);
 			
-			//Give the controller access to the main app
-			TaxesPaidViewController controller = loader.getController();
-			controller.setMainApp(this);
-			
-			initTpList(null);
 		}catch(IOException e){
 			e.printStackTrace();
 		}
@@ -259,32 +171,5 @@ public class MainApp extends Application {
     public ObservableList<Person> getPersonData() {
         return personData;
     }
-    public ObservableList<CustomerShoppingModel> getCsmData(){
-    	return csmData;
-    }
-    public ObservableList<CustomerCountryStateModel> getCcsData(){
-    	return ccsData;
-    }
-    public ObservableList<ProductSalesCategoryModel> getPscData(){
-    	return pscData;
-    }
-    public ObservableList<SalesMonthModel> getSmData(){
-    	return smData;
-    }
-    public ObservableList<TaxesPaidModel> getTpData(){
-    	return tpData;
-    }
-    
-    //Filter
-    public void setCsmData(String name, String id){
-    	this.initCsmList(name, id);
-    }
 
-	public void setSmData(String month) {
-		this.initSmList(month);
-	}
-	
-	public void setTpData(String year) {
-		this.initTpList(year);
-	}
 }

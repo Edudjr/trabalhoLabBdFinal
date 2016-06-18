@@ -10,7 +10,7 @@
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.TaxesPaidViewController">
    <children>
-      <TableView fx:id="tableView" layoutX="14.0" layoutY="179.0" prefHeight="247.0" prefWidth="580.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
+      <TableView fx:id="tableView" layoutX="14.0" layoutY="179.0" prefHeight="247.0" prefWidth="580.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="145.0">
         <columns>
           <TableColumn fx:id="stateColumn" prefWidth="270.0" text="Estado" />
           <TableColumn fx:id="monthColumn" prefWidth="99.0" text="Mes" />
