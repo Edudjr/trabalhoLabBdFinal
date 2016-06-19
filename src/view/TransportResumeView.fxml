@@ -1,8 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1">
-	<!-- TODO Add Nodes -->
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.60" fx:controller="controller.TransportViewController">
+   <children>
+      <TableView fx:id="tableView" layoutX="14.0" layoutY="179.0" prefHeight="209.0" prefWidth="560.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0">
+        <columns>
+          <TableColumn fx:id="companyColumn" prefWidth="241.0" text="Transportadora" />
+          <TableColumn fx:id="monthColumn" prefWidth="51.0" text="Mês" />
+            <TableColumn fx:id="to_1000Column" prefWidth="139.0" text="Total &lt; 1000" />
+            <TableColumn fx:id="from_1000Column" prefWidth="128.0" text="Total &gt; 1000" />
+        </columns>
+      </TableView>
+      <Label alignment="CENTER" layoutX="257.0" layoutY="23.0" text="Transportadoras" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="20.0" layoutY="56.0" text="Filtrar por:" AnchorPane.leftAnchor="20.0">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Label>
+      <Label layoutX="20.0" layoutY="73.0" text="Ano" />
+      <TextField fx:id="yearTextfield" layoutX="20.0" layoutY="97.0" AnchorPane.leftAnchor="20.0" />
+      <Button layoutX="24.0" layoutY="129.0" mnemonicParsing="false" onAction="#handleFilterButton" text="Filtrar" AnchorPane.leftAnchor="20.0" />
+   </children>
 </AnchorPane>
-

@@ -21,7 +21,7 @@
           </Menu>
           <Menu mnemonicParsing="false" text="Relatórios">
             <items>
-                  <MenuItem mnemonicParsing="false" text="Transporte" />
+                  <MenuItem mnemonicParsing="false" onAction="#handleTrClick" text="Transporte" />
                   <MenuItem mnemonicParsing="false" onAction="#handleCsmClick" text="Compras de clientes" />
               <MenuItem mnemonicParsing="false" onAction="#handleCcsClick" text="Clientes por país e estado" />
                   <MenuItem mnemonicParsing="false" onAction="#handleSmClick" text="Vendas diárias no mês" />

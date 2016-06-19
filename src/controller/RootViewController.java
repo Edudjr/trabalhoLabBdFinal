@@ -57,5 +57,10 @@ public class RootViewController {
     private void handleSysClick() {
     	mainApp.showSysView();
     }
+
+    @FXML
+    private void handleTrClick() {
+    	mainApp.showTrView();
+    }
     
 }

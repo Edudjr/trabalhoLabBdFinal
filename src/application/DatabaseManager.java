@@ -10,6 +10,7 @@ import model.ProductSalesCategoryModel;
 import model.SalesMonthModel;
 import model.SalesYearStateModel;
 import model.TaxesPaidModel;
+import model.TransportModel;
 
 public class DatabaseManager {
 	private final String username = "r7962006";
@@ -363,7 +364,53 @@ public class DatabaseManager {
 		}
 	}
 	
+	public ArrayList<TransportModel> getTrArray(String year){
+		String filter = " ";
+		if(year != null && !year.isEmpty()){
+			filter = "WHERE EXTRACT(YEAR from data_venda) = "+year+" AND ";
+		}else{
+			filter = "WHERE ";
+		}
+		
+		String query = 
+				"SELECT MT.NOME AS transportadora, TO_CHAR(DATA_VENDA, 'MM/YY') AS mes, SUM(FRETE) AS mais_mil " +
+						"FROM VENDA V " +
+						"JOIN METODO_ENTREGA MT " +
+						"ON V.METODO_ENTREGA_ID = MT.METODO_ENTREGA_ID " +
+						filter +
+						"SUBTOTAL > 1000 AND " +
+						"ROWNUM <= " + maxRowsNumber +
+						" GROUP BY ROLLUP (MT.NOME, TO_CHAR(DATA_VENDA, 'MM/YY')) " +
+				"UNION " +
+				"SELECT MT.NOME AS transportadora, TO_CHAR(DATA_VENDA, 'MM/YY') AS mes, SUM(FRETE) AS ate_mil " +
+					"FROM VENDA V " +
+					"JOIN METODO_ENTREGA MT " +
+					"ON V.METODO_ENTREGA_ID = MT.METODO_ENTREGA_ID " +
+					filter +
+					"SUBTOTAL < 1000 AND " +
+					"ROWNUM <= " + maxRowsNumber +
+					" GROUP BY ROLLUP (MT.NOME, TO_CHAR(DATA_VENDA, 'MM/YY')) " +
+				"ORDER BY transportadora";
 
+		try {
+			ArrayList<TransportModel> list = new ArrayList<TransportModel>();
+			ResultSet rs = select(query);
+			while(rs.next()){
+				TransportModel tr = 
+						new TransportModel(
+								rs.getString("transportadora"),
+								rs.getString("mes"),
+								rs.getDouble("ate_mil"),
+								rs.getDouble("mais_mil"));
+
+				list.add(tr);
+			}
+			return list;
+		} catch (SQLException ex) {
+			System.out.println(ex);
+			return null;
+		}
+	}
 
 	public boolean closeConnection(){
 		try {

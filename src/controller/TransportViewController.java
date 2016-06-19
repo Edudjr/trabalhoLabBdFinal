@@ -1,5 +1,17 @@
 package controller;
 
+import java.util.ArrayList;
+
+import application.DatabaseManager;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.fxml.FXML;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
+import model.TaxesPaidModel;
+import model.TransportModel;
 
 /*
 * Gere um relatório com as informações relacionadas a transporte contendo
@@ -12,5 +24,57 @@ package controller;
 */
 
 public class TransportViewController {
+	@FXML
+	private TableView<TransportModel> tableView;
+	@FXML
+	private TableColumn<TransportModel, String> companyColumn;
+	@FXML
+	private TableColumn<TransportModel, String> monthColumn;
+	@FXML
+	private TableColumn<TransportModel, Double> to_1000Column;
+	@FXML
+	private TableColumn<TransportModel, Double> from_1000Column;
+	@FXML
+	private TextField yearTextfield;
+
+	private ObservableList<TransportModel> dataList = FXCollections.observableArrayList();
+
+	DatabaseManager database = DatabaseManager.getInstance();
+
+	@FXML
+	private void initialize() {
+		companyColumn.setCellValueFactory
+		(new PropertyValueFactory<TransportModel, String>("transportadora"));
+		monthColumn.setCellValueFactory
+		(new PropertyValueFactory<TransportModel, String>("mes"));
+		from_1000Column.setCellValueFactory
+		(new PropertyValueFactory<TransportModel, Double>("mais_mil"));
+		to_1000Column.setCellValueFactory
+		(new PropertyValueFactory<TransportModel, Double>("ate_mil"));
+
+		tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+
+		//Init list
+		loadDataList(null);
+
+	}
+
+	public void loadDataList(String year){
+		ArrayList<TransportModel> array = new ArrayList<TransportModel>();
+		array = database.getTrArray(year);
+
+		dataList.clear();
+		for (TransportModel item : array){
+			dataList.add(item);
+		}
+		tableView.setItems(dataList);
+	}
+
+	@FXML
+	private void handleFilterButton() {
+		String year = yearTextfield.getText();
+
+		loadDataList(year);
+	}	
 
 }
