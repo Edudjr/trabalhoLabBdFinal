@@ -26,7 +26,7 @@
               <MenuItem mnemonicParsing="false" onAction="#handleCcsClick" text="Clientes por país e estado" />
                   <MenuItem mnemonicParsing="false" onAction="#handleSmClick" text="Vendas diárias no mês" />
                   <MenuItem mnemonicParsing="false" onAction="#handlePscClick" text="Vendas de produto por categoria" />
-                  <MenuItem mnemonicParsing="false" text="Vendas no ano" />
+                  <MenuItem mnemonicParsing="false" onAction="#handleSyClick" text="Vendas no ano" />
                   <MenuItem mnemonicParsing="false" text="Produtos vendidos na mesma venda" />
                   <MenuItem mnemonicParsing="false" onAction="#handleTpClick" text="Impostos pagos no ano" />
                   <MenuItem mnemonicParsing="false" onAction="#handleSysClick" text="Vendas por país e estado" />

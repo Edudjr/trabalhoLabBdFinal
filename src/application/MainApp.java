@@ -174,6 +174,18 @@ public class MainApp extends Application {
 		}
 	}
 	
+	public void showSyView(){
+		try{
+			FXMLLoader loader = new FXMLLoader
+					(MainApp.class.getResource("/view/SalesYearResumeView.fxml"));
+			AnchorPane mainView = (AnchorPane) loader.load();
+			rootLayout.setCenter(mainView);
+			
+		}catch(IOException e){
+			e.printStackTrace();
+		}
+	}
+
 	public static void main(String[] args) {
 		launch(args);
 	}

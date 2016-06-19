@@ -8,6 +8,7 @@ import model.CustomerShoppingModel;
 import model.Person;
 import model.ProductSalesCategoryModel;
 import model.SalesMonthModel;
+import model.SalesYearModel;
 import model.SalesYearStateModel;
 import model.TaxesPaidModel;
 import model.TransportModel;
@@ -414,6 +415,50 @@ public class DatabaseManager {
 		}
 	}
 
+	public ArrayList<SalesYearModel> getSyArray(String year){
+		String filter = " ";
+		if(year != null && !year.isEmpty()){
+			filter = "WHERE EXTRACT(YEAR from data_venda) = "+year+" AND ";
+		}else{
+			filter = "WHERE ";
+		}
+		
+		String query = 
+				"SELECT NOME.DATAA AS MES, " +
+						"NOME.SOMA AS VENDIDO_MES, " +
+						"TRUNC((((NOME.NV-NOME.SOMA)/NOME.SOMA)*100),2) AS alteracao " +
+						"FROM " +
+						"(SELECT " +
+						"TO_CHAR(V.data_venda, 'MM/YY') AS DATAA, " +
+						"SUM(V.SUBTOTAL)AS SOMA, " +
+						"NTH_VALUE(SUM(SUBTOTAL),2) FROM LAST OVER(ORDER BY TO_CHAR(V.data_venda, 'MM/YY')) AS nv " +
+						"FROM VENDA V " +
+						"JOIN VENDA_ITEM VI " +
+						"ON V.VENDA_ID = VI.VENDA_ID " +
+						filter +
+						"ROWNUM <= " + maxRowsNumber +
+						"GROUP BY TO_CHAR(V.data_venda, 'MM/YY')) NOME";
+
+		try {
+			ArrayList<SalesYearModel> list = new ArrayList<SalesYearModel>();
+			ResultSet rs = select(query);
+			while(rs.next()){
+				SalesYearModel sy = 
+						new SalesYearModel(
+								rs.getString("mes"),
+								rs.getDouble("vendido_mes"),
+								rs.getDouble("alteracao"));
+
+				list.add(sy);
+			}
+			return list;
+		} catch (SQLException ex) {
+			System.out.println(ex);
+			return null;
+		}
+	}
+	
+	
 	public boolean closeConnection(){
 		try {
 			connection.close();
