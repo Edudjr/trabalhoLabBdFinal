@@ -8,7 +8,7 @@
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.SalesYearStateViewController">
    <children>
-      <TableView fx:id="tableView" layoutX="14.0" layoutY="93.0" prefHeight="321.0" prefWidth="560.0" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0">
+      <TableView fx:id="tableView" layoutX="14.0" layoutY="93.0" prefHeight="321.0" prefWidth="560.0" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="65.0">
         <columns>
           <TableColumn fx:id="countryColumn" prefWidth="149.0" text="País" />
           <TableColumn fx:id="stateColumn" prefWidth="124.0" text="Estado" />
@@ -17,7 +17,7 @@
             <TableColumn fx:id="p_totalColumn" prefWidth="79.0" text="\% Total" />
         </columns>
       </TableView>
-      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="218.0" layoutY="22.0" text="Vendas por País e Estado" textOverrun="CLIP" AnchorPane.leftAnchor="200.0" AnchorPane.rightAnchor="200.0">
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="218.0" layoutY="22.0" text="Vendas por País e Estado" textOverrun="CLIP" AnchorPane.leftAnchor="200.0" AnchorPane.rightAnchor="200.0" AnchorPane.topAnchor="15.0">
          <font>
             <Font name="System Bold" size="14.0" />
          </font>

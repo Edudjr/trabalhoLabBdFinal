@@ -348,6 +348,7 @@ public class DatabaseManager {
 			ArrayList<SalesYearStateModel> list = new ArrayList<SalesYearStateModel>();
 			ResultSet rs = select(query);
 			while(rs.next()){
+				System.out.println("ok");
 				SalesYearStateModel sys = 
 						new SalesYearStateModel(
 								rs.getString("pais"),
@@ -418,9 +419,7 @@ public class DatabaseManager {
 	public ArrayList<SalesYearModel> getSyArray(String year){
 		String filter = " ";
 		if(year != null && !year.isEmpty()){
-			filter = "WHERE EXTRACT(YEAR from data_venda) = "+year+" AND ";
-		}else{
-			filter = "WHERE ";
+			filter = "WHERE EXTRACT(YEAR from data_venda) = "+year+" ";
 		}
 		
 		String query = 
@@ -430,14 +429,14 @@ public class DatabaseManager {
 						"FROM " +
 						"(SELECT " +
 						"TO_CHAR(V.data_venda, 'MM/YY') AS DATAA, " +
-						"SUM(V.SUBTOTAL)AS SOMA, " +
+						"SUM(V.SUBTOTAL) AS SOMA, " +
 						"NTH_VALUE(SUM(SUBTOTAL),2) FROM LAST OVER(ORDER BY TO_CHAR(V.data_venda, 'MM/YY')) AS nv " +
 						"FROM VENDA V " +
 						"JOIN VENDA_ITEM VI " +
 						"ON V.VENDA_ID = VI.VENDA_ID " +
 						filter +
-						"ROWNUM <= " + maxRowsNumber +
-						"GROUP BY TO_CHAR(V.data_venda, 'MM/YY')) NOME";
+						" GROUP BY TO_CHAR(V.data_venda, 'MM/YY')) NOME " +
+						" ORDER BY MES ASC ";
 
 		try {
 			ArrayList<SalesYearModel> list = new ArrayList<SalesYearModel>();

@@ -38,11 +38,11 @@ public class SalesYearViewController {
 	@FXML
 	private void initialize() {
 		monthColumn.setCellValueFactory
-		(new PropertyValueFactory<SalesYearModel, String>("mes"));
+		(new PropertyValueFactory<SalesYearModel, String>("month"));
 		total_monthColumn.setCellValueFactory
-		(new PropertyValueFactory<SalesYearModel, Double>("vendido_mes"));
+		(new PropertyValueFactory<SalesYearModel, Double>("total_month"));
 		changeColumn.setCellValueFactory
-		(new PropertyValueFactory<SalesYearModel, Double>("alteracao"));
+		(new PropertyValueFactory<SalesYearModel, Double>("change"));
 
 		tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 

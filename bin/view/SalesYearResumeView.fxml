@@ -8,8 +8,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.60" fx:controller="controller.SalesYearViewController">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.SalesYearViewController">
    <children>
       <TableView fx:id="tableView" layoutX="14.0" layoutY="121.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="170.0">
         <columns>
@@ -18,7 +17,7 @@
             <TableColumn fx:id="changeColumn" prefWidth="124.0" text="\% Alteração" />
         </columns>
       </TableView>
-      <Label alignment="CENTER" layoutX="257.0" layoutY="28.0" text="Vendas por Mês" AnchorPane.leftAnchor="200.0" AnchorPane.rightAnchor="200.0" AnchorPane.topAnchor="20.0">
+      <Label alignment="CENTER" layoutX="257.0" layoutY="28.0" text="Vendas no Ano" AnchorPane.leftAnchor="200.0" AnchorPane.rightAnchor="200.0" AnchorPane.topAnchor="20.0">
          <font>
             <Font name="System Bold" size="14.0" />
          </font>
