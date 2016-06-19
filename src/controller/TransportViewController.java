@@ -44,13 +44,13 @@ public class TransportViewController {
 	@FXML
 	private void initialize() {
 		companyColumn.setCellValueFactory
-		(new PropertyValueFactory<TransportModel, String>("transportadora"));
+		(new PropertyValueFactory<TransportModel, String>("company"));
 		monthColumn.setCellValueFactory
-		(new PropertyValueFactory<TransportModel, String>("mes"));
+		(new PropertyValueFactory<TransportModel, String>("month"));
 		from_1000Column.setCellValueFactory
-		(new PropertyValueFactory<TransportModel, Double>("mais_mil"));
+		(new PropertyValueFactory<TransportModel, Double>("to_1000"));
 		to_1000Column.setCellValueFactory
-		(new PropertyValueFactory<TransportModel, Double>("ate_mil"));
+		(new PropertyValueFactory<TransportModel, Double>("from_1000"));
 
 		tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 

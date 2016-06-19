@@ -373,16 +373,18 @@ public class DatabaseManager {
 		}
 		
 		String query = 
-				"SELECT MT.NOME AS transportadora, TO_CHAR(DATA_VENDA, 'MM/YY') AS mes, SUM(FRETE) AS mais_mil " +
+				"SELECT S1.transportadora, S1.mes, S1.mais_mil, S2.ate_mil " +
+				"FROM (SELECT MT.NOME AS transportadora, TO_CHAR(DATA_VENDA, 'MM/YY') AS mes, " +
+				" SUM(FRETE) AS mais_mil " +
 						"FROM VENDA V " +
 						"JOIN METODO_ENTREGA MT " +
 						"ON V.METODO_ENTREGA_ID = MT.METODO_ENTREGA_ID " +
 						filter +
 						"SUBTOTAL > 1000 AND " +
 						"ROWNUM <= " + maxRowsNumber +
-						" GROUP BY ROLLUP (MT.NOME, TO_CHAR(DATA_VENDA, 'MM/YY')) " +
-				"UNION " +
-				"SELECT MT.NOME AS transportadora, TO_CHAR(DATA_VENDA, 'MM/YY') AS mes, SUM(FRETE) AS ate_mil " +
+						" GROUP BY ROLLUP (MT.NOME, TO_CHAR(DATA_VENDA, 'MM/YY'))) S1 " +
+				"JOIN " +
+				"(SELECT MT.NOME AS transportadora, TO_CHAR(DATA_VENDA, 'MM/YY') AS mes, SUM(FRETE) AS ate_mil " +
 					"FROM VENDA V " +
 					"JOIN METODO_ENTREGA MT " +
 					"ON V.METODO_ENTREGA_ID = MT.METODO_ENTREGA_ID " +
@@ -390,7 +392,7 @@ public class DatabaseManager {
 					"SUBTOTAL < 1000 AND " +
 					"ROWNUM <= " + maxRowsNumber +
 					" GROUP BY ROLLUP (MT.NOME, TO_CHAR(DATA_VENDA, 'MM/YY')) " +
-				"ORDER BY transportadora";
+				"ORDER BY transportadora) S2 ON S1.transportadora = S2.transportadora";
 
 		try {
 			ArrayList<TransportModel> list = new ArrayList<TransportModel>();
