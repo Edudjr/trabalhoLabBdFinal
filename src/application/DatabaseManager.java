@@ -478,7 +478,6 @@ public class DatabaseManager {
 			ArrayList<DashboardTopSoldModel> list = new ArrayList<DashboardTopSoldModel>();
 			ResultSet rs = select(query);
 			while(rs.next()){
-				System.out.println(rs.getDouble("quantidade"));
 				DashboardTopSoldModel sy = 
 						new DashboardTopSoldModel(
 								rs.getString("nome"),
@@ -491,6 +490,52 @@ public class DatabaseManager {
 			System.out.println(ex);
 			return null;
 		}
+	}
+	
+	public ArrayList<DashboardTopSoldModel> getDashboardLowStock(){
+
+		String query = 
+				"SELECT nome, quantidade FROM Produto "+
+				"WHERE quantidade < 15 "+
+				"ORDER BY quantidade ASC";
+
+		try {
+			ArrayList<DashboardTopSoldModel> list = new ArrayList<DashboardTopSoldModel>();
+			ResultSet rs = select(query);
+			while(rs.next()){
+				DashboardTopSoldModel sy = 
+						new DashboardTopSoldModel(
+								rs.getString("nome"),
+								rs.getDouble("quantidade"));
+
+				list.add(sy);
+			}
+			return list;
+		} catch (SQLException ex) {
+			System.out.println(ex);
+			return null;
+		}
+	}
+	
+	//Retorna soma de todos os valores vendidos em determinado dia
+	public String getDashboardSaleSum(String date){
+
+		String query = 
+				"select TO_CHAR(data_venda, 'dd/mm/yy') as data, SUM(subtotal) as soma " +
+				"from venda "+
+				"where trunc(data_venda) = TO_DATE('"+date+"','dd/mm/yy') "+
+				"group by data_venda";
+
+		try {
+			ResultSet rs = select(query);
+			if(rs.next()){
+				return rs.getString("soma");
+			}
+		} catch (SQLException ex) {
+			System.out.println(ex);
+			return "N/A";
+		}
+		return "N/A";
 	}
 	
 	
