@@ -62,6 +62,7 @@ public class MainApp extends Application {
 		//showTpView();
 		
 		//showSysView();
+		
 	}
 	
 	//Init lists
@@ -85,6 +86,18 @@ public class MainApp extends Application {
 			PersonViewController controller = loader.getController();
 			controller.setMainApp(this);
 			initMainList();
+		}catch(IOException e){
+			e.printStackTrace();
+		}
+	}
+	
+	public void showDashboardView(){
+		try{
+			FXMLLoader loader = new FXMLLoader
+					(MainApp.class.getResource("/view/DashboardView.fxml"));
+			AnchorPane mainView = (AnchorPane) loader.load();
+			rootLayout.setCenter(mainView);
+		
 		}catch(IOException e){
 			e.printStackTrace();
 		}

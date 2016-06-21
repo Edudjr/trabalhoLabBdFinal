@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import model.CustomerCountryStateModel;
 import model.CustomerShoppingModel;
+import model.DashboardTopSoldModel;
 import model.Person;
 import model.ProductSalesCategoryModel;
 import model.SalesMonthModel;
@@ -447,6 +448,41 @@ public class DatabaseManager {
 								rs.getString("mes"),
 								rs.getDouble("vendido_mes"),
 								rs.getDouble("alteracao"));
+
+				list.add(sy);
+			}
+			return list;
+		} catch (SQLException ex) {
+			System.out.println(ex);
+			return null;
+		}
+	}
+	
+	
+	//Dashboard methods
+	public ArrayList<DashboardTopSoldModel> getDashboardTopSold(){
+
+		String query = 
+				"SELECT * FROM (" +
+				"SELECT Produto.nome, count(*) as quantidade FROM Venda_item "+
+				"JOIN Produto ON Venda_item.produto_id = Produto.produto_id "+
+				"JOIN Venda V ON Venda_item.venda_id = V.venda_id "+
+				"WHERE V.data_venda between " +
+				"(select max(V.data_venda) from venda) - 30 " +
+ 				"and (select max(V.data_venda) from venda) "+
+				"GROUP BY Produto.nome " +
+				"ORDER BY quantidade DESC) " +
+				"WHERE ROWNUM <= 10";
+
+		try {
+			ArrayList<DashboardTopSoldModel> list = new ArrayList<DashboardTopSoldModel>();
+			ResultSet rs = select(query);
+			while(rs.next()){
+				System.out.println(rs.getDouble("quantidade"));
+				DashboardTopSoldModel sy = 
+						new DashboardTopSoldModel(
+								rs.getString("nome"),
+								rs.getDouble("quantidade"));
 
 				list.add(sy);
 			}

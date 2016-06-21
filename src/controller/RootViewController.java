@@ -68,4 +68,9 @@ public class RootViewController {
     	mainApp.showSyView();
     }
     
+    @FXML
+    private void handleDashboardClick(){
+    	mainApp.showDashboardView();
+    }
+    
 }
