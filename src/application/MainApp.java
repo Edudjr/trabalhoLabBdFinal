@@ -50,8 +50,8 @@ public class MainApp extends Application {
 		
 		//showSysView();
 		
-		//showLogin();
-		showMenu();
+		showLogin();
+		//showMenu();
 		
 	}
 	
