@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import model.CustomerCountryStateModel;
 import model.CustomerShoppingModel;
+import model.DashboardTopSoldModel;
 import model.Person;
 import model.ProductSalesCategoryModel;
 import model.SalesMonthModel;
@@ -455,6 +456,86 @@ public class DatabaseManager {
 			System.out.println(ex);
 			return null;
 		}
+	}
+	
+	
+	//Dashboard methods
+	public ArrayList<DashboardTopSoldModel> getDashboardTopSold(){
+
+		String query = 
+				"SELECT * FROM (" +
+				"SELECT Produto.nome, count(*) as quantidade FROM Venda_item "+
+				"JOIN Produto ON Venda_item.produto_id = Produto.produto_id "+
+				"JOIN Venda V ON Venda_item.venda_id = V.venda_id "+
+				"WHERE V.data_venda between " +
+				"(select max(V.data_venda) from venda) - 30 " +
+ 				"and (select max(V.data_venda) from venda) "+
+				"GROUP BY Produto.nome " +
+				"ORDER BY quantidade DESC) " +
+				"WHERE ROWNUM <= 10";
+
+		try {
+			ArrayList<DashboardTopSoldModel> list = new ArrayList<DashboardTopSoldModel>();
+			ResultSet rs = select(query);
+			while(rs.next()){
+				DashboardTopSoldModel sy = 
+						new DashboardTopSoldModel(
+								rs.getString("nome"),
+								rs.getDouble("quantidade"));
+
+				list.add(sy);
+			}
+			return list;
+		} catch (SQLException ex) {
+			System.out.println(ex);
+			return null;
+		}
+	}
+	
+	public ArrayList<DashboardTopSoldModel> getDashboardLowStock(){
+
+		String query = 
+				"SELECT nome, quantidade FROM Produto "+
+				"WHERE quantidade < 15 "+
+				"ORDER BY quantidade ASC";
+
+		try {
+			ArrayList<DashboardTopSoldModel> list = new ArrayList<DashboardTopSoldModel>();
+			ResultSet rs = select(query);
+			while(rs.next()){
+				DashboardTopSoldModel sy = 
+						new DashboardTopSoldModel(
+								rs.getString("nome"),
+								rs.getDouble("quantidade"));
+
+				list.add(sy);
+			}
+			return list;
+		} catch (SQLException ex) {
+			System.out.println(ex);
+			return null;
+		}
+	}
+	
+	//Retorna soma de todos os valores vendidos em determinado dia
+	public String getDashboardSaleSum(String date){
+
+		String query = 
+				"select TO_CHAR(data_venda, 'dd/mm/yy') as data, SUM(subtotal) as soma " +
+				"from venda "+
+				"where trunc(data_venda) = TO_DATE('"+date+"','dd/mm/yy') "+
+				"group by data_venda";
+
+		try {
+			ResultSet rs = select(query);
+			if(rs.next()){
+				return rs.getString("soma");
+			}
+		} catch (SQLException ex) {
+			System.out.println(ex);
+			return "N/A";
+		}
+		return "N/A";
 	}
 	
 	
