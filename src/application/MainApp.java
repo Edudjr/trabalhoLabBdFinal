@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import java.util.ArrayList;
 
+import controller.LoginViewController;
 import controller.MainViewController;
 import controller.PersonViewController;
 import controller.RootViewController;
@@ -100,6 +101,10 @@ public class MainApp extends Application {
 					(MainApp.class.getResource("/view/LoginView.fxml"));
 			AnchorPane mainView = (AnchorPane) loader.load();
 			rootLayout.setCenter(mainView);
+			
+			LoginViewController controller = loader.getController();
+			controller.setMainApp(this);
+			
 		}catch(IOException e){
 			e.printStackTrace();
 		}

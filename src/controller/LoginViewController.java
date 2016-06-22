@@ -12,26 +12,38 @@ public class LoginViewController {
 	private TextField emailTextfield;
 	@FXML
 	private TextField passwordTextfield;
-	
+
 	DatabaseManager database = DatabaseManager.getInstance();
-	
+
 	private MainApp mainApp;
-	
+
 	@FXML
 	private void login() {
 		String email = emailTextfield.getText();
 		String senha = passwordTextfield.getText();
-		
-		String query = "SELECT login(" + email + ", " + senha + ") FROM dual";
+
+		String query = "select * from pessoa "
+				+ "where email='"+email+"'";
 
 		ResultSet res = database.select(query);
-		
-		if(res != null) {
-			MainViewController.logged = true;
-			mainApp.showDashboardView();
+
+		try {
+			if(res.next()) {
+
+				if (res.getString("password_hash").equals(senha)){
+					MainViewController.logged = true;
+					mainApp.showDashboardView();
+				}
+
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-		
-		System.out.println(MainViewController.logged);
 	}	
+	
+	public void setMainApp(MainApp app){
+		this.mainApp = app;
+	}
 
 }
