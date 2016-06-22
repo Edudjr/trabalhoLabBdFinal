@@ -3,6 +3,7 @@ package controller;
 import java.sql.*;
 
 import application.DatabaseManager;
+import application.MainApp;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 
@@ -13,6 +14,8 @@ public class LoginViewController {
 	private TextField passwordTextfield;
 	
 	DatabaseManager database = DatabaseManager.getInstance();
+	
+	private MainApp mainApp;
 	
 	@FXML
 	private void login() {
@@ -25,6 +28,7 @@ public class LoginViewController {
 		
 		if(res != null) {
 			MainViewController.logged = true;
+			mainApp.showDashboardView();
 		}
 		
 		System.out.println(MainViewController.logged);

@@ -24,6 +24,7 @@ public class RootViewController {
 
     @FXML
     private void handleExit() {
+    	MainViewController.logged = false;
         System.exit(0);
     }
     

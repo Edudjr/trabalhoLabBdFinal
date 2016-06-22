@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import java.util.ArrayList;
 
+import controller.MainViewController;
 import controller.PersonViewController;
 import controller.RootViewController;
 import javafx.application.Application;
@@ -28,7 +29,7 @@ public class MainApp extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		this.primaryStage = primaryStage;
-		this.primaryStage.setTitle("AddressApp");
+		this.primaryStage.setTitle("Accessories & Bikes Company");
 		
 		try{
 			FXMLLoader loader = new FXMLLoader(MainApp.class.getResource("/view/RootView.fxml"));
@@ -62,6 +63,8 @@ public class MainApp extends Application {
 		//showTpView();
 		
 		//showSysView();
+		
+		showLoginView();
 		
 	}
 	
