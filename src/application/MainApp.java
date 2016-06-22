@@ -62,6 +62,8 @@ public class MainApp extends Application {
 		//showTpView();
 		
 		//showSysView();
+		
+		showLoginView();
 	}
 	
 	//Init lists
@@ -90,6 +92,18 @@ public class MainApp extends Application {
 		}
 	}
 	
+	public void showLoginView(){
+		try{
+			FXMLLoader loader = new FXMLLoader
+					(MainApp.class.getResource("/view/LoginView.fxml"));
+			AnchorPane mainView = (AnchorPane) loader.load();
+			rootLayout.setCenter(mainView);
+			
+		}catch(IOException e){
+			e.printStackTrace();
+		}
+	}
+
 	public void showCsmView(){
 		try{
 			FXMLLoader loader = new FXMLLoader
