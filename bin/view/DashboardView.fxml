@@ -19,12 +19,12 @@
       <Label alignment="CENTER" layoutX="191.0" layoutY="192.0" text="Soma dos valores vendidos no dia mes e ano" AnchorPane.leftAnchor="150.0" AnchorPane.rightAnchor="150.0" AnchorPane.topAnchor="190.0" />
       <Label layoutX="42.0" layoutY="279.0" text="10 items mais vendidos nos ultimos 30 dias" AnchorPane.leftAnchor="40.0" AnchorPane.topAnchor="280.0" />
       <Label layoutX="326.0" layoutY="279.0" text="Produtos com baixa quantidade em estoque" AnchorPane.leftAnchor="326.0" AnchorPane.topAnchor="280.0" />
-      <StackedBarChart layoutX="157.0" layoutY="31.0" prefHeight="150.0" prefWidth="287.0" AnchorPane.leftAnchor="155.0" AnchorPane.rightAnchor="155.0" AnchorPane.topAnchor="30.0">
+      <StackedBarChart fx:id="barChart" layoutX="10.0" layoutY="31.0" prefHeight="150.0" prefWidth="562.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="30.0">
         <xAxis>
           <CategoryAxis side="BOTTOM" />
         </xAxis>
         <yAxis>
-          <NumberAxis side="LEFT" />
+          <NumberAxis prefHeight="109.0" prefWidth="26.0" side="LEFT" />
         </yAxis>
       </StackedBarChart>
       <TextField fx:id="dateTextfield" layoutX="191.0" layoutY="225.0" prefHeight="25.0" prefWidth="95.0" AnchorPane.leftAnchor="190.0" AnchorPane.topAnchor="225.0" />

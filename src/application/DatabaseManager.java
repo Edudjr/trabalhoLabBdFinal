@@ -538,6 +538,35 @@ public class DatabaseManager {
 		return "N/A";
 	}
 	
+	//Soma das vendas nos ultimos 30 dias
+	public ArrayList<DashboardTopSoldModel> getDashboardSumLast30Days(){
+
+		String query = 
+				"select TO_CHAR(data_venda, 'dd/MM/YY') as data_venda, "+
+				"SUM(subtotal) as soma from venda "+
+				"WHERE data_venda between " +
+				"(select max(data_venda) from venda) - 30 "+
+				"AND (select max(data_venda) from venda) "+
+				"group by data_venda";
+
+		try {
+			ArrayList<DashboardTopSoldModel> list = new ArrayList<DashboardTopSoldModel>();
+			ResultSet rs = select(query);
+			while(rs.next()){
+				DashboardTopSoldModel sy = 
+						new DashboardTopSoldModel(
+								rs.getString("data_venda"),
+								rs.getDouble("soma"));
+
+				list.add(sy);
+			}
+			return list;
+		} catch (SQLException ex) {
+			System.out.println(ex);
+			return null;
+		}
+	}
+	
 	
 	public boolean closeConnection(){
 		try {

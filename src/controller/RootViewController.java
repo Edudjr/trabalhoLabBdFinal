@@ -1,5 +1,6 @@
 package controller;
 
+import application.DatabaseManager;
 import application.MainApp;
 import javafx.fxml.FXML;
 
@@ -24,6 +25,7 @@ public class RootViewController {
 
     @FXML
     private void handleExit() {
+    	DatabaseManager.getInstance().closeConnection();
     	MainViewController.logged = false;
         System.exit(0);
     }
