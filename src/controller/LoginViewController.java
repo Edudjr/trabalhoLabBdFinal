@@ -32,7 +32,7 @@ public class LoginViewController {
 
 				if (res.getString("password_hash").equals(senha)){
 					MainViewController.logged = true;
-					mainApp.showDashboardView();
+					mainApp.showMenu();
 				}
 
 			}

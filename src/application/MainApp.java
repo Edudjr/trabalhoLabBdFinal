@@ -32,21 +32,6 @@ public class MainApp extends Application {
 		this.primaryStage = primaryStage;
 		this.primaryStage.setTitle("Accessories & Bikes Company");
 		
-		try{
-			FXMLLoader loader = new FXMLLoader(MainApp.class.getResource("/view/RootView.fxml"));
-			this.rootLayout = (BorderPane) loader.load();
-			Scene scene = new Scene(this.rootLayout);
-			primaryStage.setScene(scene);
-			primaryStage.show();
-			
-			// Give the controller access to the main app
-		    RootViewController controller = loader.getController();
-		    controller.setMainApp(this);
-			
-		}catch(IOException e){
-			e.printStackTrace();
-		}
-		
 		database = DatabaseManager.getInstance();
 		database.openConnection();
 		
@@ -65,8 +50,43 @@ public class MainApp extends Application {
 		
 		//showSysView();
 		
-		showLoginView();
+		showLogin();
 		
+	}
+	
+	public void showMenu(){
+		try{
+			FXMLLoader loader = new FXMLLoader(MainApp.class.getResource("/view/RootView.fxml"));
+			this.rootLayout = (BorderPane) loader.load();
+			Scene scene = new Scene(this.rootLayout);
+			primaryStage.setScene(scene);
+			primaryStage.show();
+			
+			// Give the controller access to the main app
+		    RootViewController controller = loader.getController();
+		    controller.setMainApp(this);
+		    
+			this.showDashboardView();
+		}catch(IOException e){
+			e.printStackTrace();
+		}
+	}
+	
+	public void showLogin(){
+		try{
+			FXMLLoader loader = new FXMLLoader
+					(MainApp.class.getResource("/view/LoginView.fxml"));
+			AnchorPane mainView = (AnchorPane) loader.load();
+			Scene scene = new Scene(mainView);
+			primaryStage.setScene(scene);
+			primaryStage.show();
+			
+			LoginViewController controller = loader.getController();
+			controller.setMainApp(this);
+			
+		}catch(IOException e){
+			e.printStackTrace();
+		}
 	}
 	
 	//Init lists
